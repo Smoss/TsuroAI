@@ -46,7 +46,7 @@
 [(0, 3), (1, 6), (2, 4), (5, 7)]
 [(0, 6), (1, 4), (7, 3), (2, 5)]
 
-positions_addrs = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (-1, 0), 7 : (-1, 0)}
+positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
 class TsuroGame:
 	def __init__(self, players):
 		self.players = players
@@ -59,9 +59,15 @@ class TsuroPlayer:
 		self.hand = hand
 		self.private_hand = deck - self.hand
 	def lost(self):
-		addr = positions_addrs[self.position[2]]
-		return (position[0] + addr[0]) % 7 == 0 or (position[1] + addr[1]) % 7 == 0
-		
+		adder = positions_adders[self.position[2]]
+		return (position[0] + adder[0]) % 7 == 0 or (position[1] + adder[1]) % 7 == 0
+	def play(self, )
+
+
+class AIPlayer (TsuroPlayer):
+	def init(self, hand, position):
+
+
 class TsuroBoard:
 	def __init__(self):
 		self.board = [[None * 6] * 6]
