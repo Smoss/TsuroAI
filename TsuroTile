@@ -1,0 +1,6 @@
+class TsuroTile:
+	def __init__(self, tileinfo):
+		self.paths = [None * 8]
+		for a, b in tileinfo:
+			self.paths[a] = b
+			self.paths[b] = a
