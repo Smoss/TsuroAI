@@ -46,13 +46,18 @@
 [(0, 3), (1, 6), (2, 4), (5, 7)]
 [(0, 6), (1, 4), (7, 3), (2, 5)]
 
-def gen_States(g_state, deck):
+def gen_S1tates(g_state, deck, curr_player):
 	for card_order in itertools.permutations(g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
-		for card in card_order:
-			ng_state = ng_state.transform(card)
-		yield ng_state, deck - card_order
+		cp_pairs = [(g_state.active_players.remove(curr_player)[x]: card_order[x]) for x in range(len(card_order))]
+		p_cards = []
+		for card, player in card_order:
+			if player in ng_state.active_players:
+				ng_state = ng_state.transform(card)
+				p_cards.append(card)
+		yield ng_state, deck - p_cards
 
+lost_score = -10000000
 positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
 class TsuroGame:
 	def __init__(self, players):
@@ -76,7 +81,7 @@ class TsuroPlayer:
 
 class AIPlayer (TsuroPlayer):
 	#add bloodlust later
-	def __init__(self, hand, position, game, , P_id):
+	def __init__(self, hand, position, game, P_id):
 		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
 	def play(self):
 		self.play(self, self.select_card())
@@ -88,11 +93,14 @@ class AIPlayer (TsuroPlayer):
 		for card in self.hand:
 			points = 0
 			if self.game.transform(card).players[self.id].lost():
-				points = -10000000
+				points = lost_score
 			else:
 				g_state = copy.deepcopy(game)
-				for state in gen_States(g_state, self.private_hand):
-					pass
+				for state, n_knowledge in gen_States(g_state, self.private_hand):
+					if self.game.transform(card).players[self.id].lost():
+						points = lost_score * .3
+					else:
+						self.traverse(best, n_knowledge, runs - 1)
 			if points > best[0]:
 				best = (points, card)
 		return best
@@ -146,7 +154,3 @@ class TsuroBoard:
 class TsuroTile:
 	def __init__(self, tileinfo):
 		self.
-
-
-
-
