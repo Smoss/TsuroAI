@@ -1,3 +1,5 @@
+import itertools
+
 lost_score = -10000000
 class TsuroPlayer:
 	"""Contains the player's hand and position on the board."""
@@ -25,7 +27,7 @@ class AIPlayer (TsuroPlayer):
 	def play(self):
 		self.play(self, self.select_card())
 	def select_card(self):
-		return self.traverse(-(float("inf"), self.private_hand, self.hand, 5)
+		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
 	def symmetry(self, card):
 		sym = 0
 		for pair in card:
@@ -37,24 +39,25 @@ class AIPlayer (TsuroPlayer):
 		if runs == 0:
 			return best
 		for card in self.hand:
-			points = 0
-			if not self in self.game.transform(card).active_players:
-				points = lost_score
-			elif len(self.game.transform(card).active_players) == 1:
-				return (lost_score * -.1, card)
-			else:
-				g_state = copy.deepcopy(game)
-				points += (self.position[0] + self.position[1]) * 100 + self.symmetry(card) * 200 - len(state.active_players) * 300
-				for state, n_knowledge in gen_States(g_state, self.private_hand):
-					if not self in state.active_players:
-						points = lost_score * .3
-					elif len(state.active_players) == 1:
-						points = lost_score * -.1
-					else:
-						for card in n_knowledge:
-							points += .3 * self.traverse(best, n_knowledge - card, hand.append(card), runs - 1)[0]
-			if points > best[0]:
-				best = (points, card)
+			for rot in range(4):
+				points = 0
+				if not self in self.game.transform(card, rot).active_players:
+					points = lost_score
+				elif len(self.game.transform(card, rot).active_players) == 1:
+					return (lost_score * -.1, card)
+				else:
+					g_state = copy.deepcopy(game)
+					points += (self.position[0] + self.position[1]) * 100 + self.symmetry(card) * 200 - len(state.active_players) * 300
+					for state, n_knowledge in gen_States(g_state, self.private_hand):
+						if not self in state.active_players:
+							points = lost_score * .3
+						elif len(state.active_players) == 1:
+							points = lost_score * -.1
+						else:
+							for card in n_knowledge:
+								points += .3 * self.traverse(best, n_knowledge - card, hand.append(card), runs - 1)[0]
+				if points > best[0]:
+					best = (points, card, rot)
 		return best
 
 def gen_States(g_state, deck, curr_player):
@@ -62,10 +65,12 @@ def gen_States(g_state, deck, curr_player):
 		ng_state = copy.deepcopy(g_state)
 		cp_pairs = [(g_state.active_players.remove(curr_player)[x]: card_order[x]) for x in range(len(card_order))]
 		p_cards = []
-		for card, player in card_order:
-			if player in ng_state.active_players:
-				ng_state = ng_state.transform(card)
-				p_cards.append(card)
+		rotations = [[0]*(g_state.active_players - 1) + [1] * (g_state.active_players - 1) + [2] * (g_state.active_players - 1) + [3] * (g_state.active_players - 1)]
+		for rot_list in itertools.permutations(g_state.active_players - 1):
+			for rot, card, player in  itertools.izip(rot_list, card_order):
+				if player in ng_state.active_players:
+					ng_state = ng_state.transform(card, rot)
+					p_cards.append(card)
 		yield ng_state, deck - p_cards
 
 
