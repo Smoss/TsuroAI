@@ -102,7 +102,7 @@ class AIPlayer (TsuroPlayer):
 					for state, n_knowledge in gen_States(g_state, self.private_hand):
 						if not self in state.active_players():
 							points += lost_score * .3
-						elif game.gameOver():
+						elif len(state.active_players()) == 1:
 							points += lost_score * -.1
 						else:
 							if len(n_knowledge) > 0:
