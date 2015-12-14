@@ -90,6 +90,8 @@ class TsuroGame(object):
 			selectedTile = currentPlayer.play()
 			print "------------------------------"
 			print "the selected tile is %d rotated %d times" % (selectedTile.index, selectedTile.rotation)
+			print "the base card paths are %s" % TsuroTilesAllTiles[selectedTile.index].easyPrint()
+			print "The rotated paths are: %s" % selectedTile.easyPrint()
 			if self.isSuicide(currentPlayer, selectedTile):
 				print "this is suicide :( "
 			else:

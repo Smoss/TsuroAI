@@ -3,7 +3,7 @@ import random
 import copy
 from TsuroTile import allTiles as deck
 
-lost_score = -10000
+lost_score = -1000000000
 positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
 class TsuroPlayer(object):
 	"""Contains the player's hand and position on the board."""
@@ -91,31 +91,35 @@ class AIPlayer (TsuroPlayer):
 	def traverse(self, best, knowledge, hand, runs, c_state):
 		if runs == 0:
 			return best
-		for card in self.hand:
+		for card in hand:
+			print card.index
 			for rot in range(4):
 				points = 0
 				g_state = c_state.transform(card.rotate(ticks = rot), c_state.players[self.id].play_position())
 
 				if g_state.players[self.id].lost():
-					points = lost_score
+					points += lost_score
 				elif g_state.gameOver():
 					return (lost_score * -.1, card, rot)
 				else:
 					num_N_N = g_state.board.numNeighborsAndEmpty(g_state.players[self.id].play_position())
 					points += (g_state.players[self.id].position[0] + g_state.players[self.id].position[1]) * 100 + self.symmetry(card) * 50 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
 					for state, n_knowledge in gen_States(g_state, self.private_hand, self):
-						if not self in state.active_players():
-							points += lost_score * .3
+						if state.players[self.id].lost():
+							print "huh"
+							points += lost_score * .1
 						elif len(state.active_players()) == 1:
+							print "what"
 							points += lost_score * -.1
 						else:
 							if len(n_knowledge) > 0:
-								for card in n_knowledge:
-									points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand.append(card), runs - 1, g_state)[0]
+								for card_2 in n_knowledge:
+									points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) &	set([card_2]) - set([card]), runs - 1, g_state)[0]
 							else:
-								points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1, g_state)[0]
+								points += .0003 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
+				print points, card.index, rot
 		return best
 
 class RandomPlayer(TsuroPlayer):
