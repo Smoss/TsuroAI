@@ -104,7 +104,7 @@ class TsuroTile:
 		tileLines = []
 		tileLines.append(tileTemplate[0])
 		tileLines.append(tileTemplate[1] % (self.paths[0], self.paths[1]))
-		tileLines.append(tileTemplate[2] % (self.paths[7], self.index, self.paths[2]))
+		tileLines.append(tileTemplate[2] % (self.paths[7], self.paths[2]))
 		tileLines.append(tileTemplate[3] % (self.paths[6], self.paths[3]))
 		tileLines.append(tileTemplate[4] % (self.paths[5], self.paths[4]))
 		return tileLines

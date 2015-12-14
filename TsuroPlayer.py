@@ -1,5 +1,6 @@
 import itertools
 import random
+import copy
 from TsuroTile import allTiles as deck
 
 lost_score = -10000000
@@ -12,11 +13,13 @@ class TsuroPlayer(object):
 		self.private_hand = set(deck) - set(self.hand)
 		self.game = game
 		self.id = P_id
+		print "TsuroPlayer created with id %d" % self.id
 	def alive(self):
 		return not self.lost()
 	def lost(self):
 		adder = positions_adders[self.position[2]]
-		return (self.position[0] + adder[0]) % 7 == 0 or (self.position[1] + adder[1]) % 7 == 0
+		return ((self.position[0] + adder[0]) % 7 == 0 or (self.position[1] + adder[1]) % 7 == 0)
+
 	def draw(self):
 		self.hand.append(self.game.draw())
 	def play(self, card):
@@ -24,7 +27,7 @@ class TsuroPlayer(object):
 	def select_card(self):
 		pass
 	def play_position(self):
-		return tuple(sum(x) for x in zip(player.position[:2], positions_adders[player.position[2]]))
+		return tuple(sum(x) for x in zip(self.position[:2], positions_adders[self.position[2]]))
 
 class HumanPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
@@ -77,7 +80,7 @@ class AIPlayer (TsuroPlayer):
 			print "Domo arigato, from mr smrt roboto"
 		print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse(((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5))
+		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
@@ -91,7 +94,12 @@ class AIPlayer (TsuroPlayer):
 		for card in self.hand:
 			for rot in range(4):
 				points = 0
-				g_state = copy.deepcopy(game).transform(card.rotate(ticks = rot), self.play_position)
+				g_state = self.game.transform(card.rotate(ticks = rot), self.play_position())
+				
+				print "gstate info:"
+				print g_state.players
+				g_state.board.printBoard()
+
 				if g_state.players[self.id].lost():
 					points = lost_score
 				elif g_state.gameOver():

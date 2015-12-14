@@ -58,47 +58,70 @@ class TsuroGame(object):
 		self.players = players
 		self.board = TsuroBoard() if board is None else board
 		self.tiles = [TsuroTile(i, tileInfo) for i, tileInfo in enumerate(tileData)] if tiles is None else tiles
+		print "board: "
+		print self.board
 
 	def transform(self, tile, location, boardOnly=False):
-		newBoard = copy.deepCopy(self.board)
+		newBoard = copy.deepcopy(self.board)
 		newBoard.placeTile(tile, location)
 		if boardOnly:
 			return newBoard
 		else:
-			return TsuroGame(self.players, newBoard, self.tiles)
+			return TsuroGame(copy.deepcopy(self.players), board=newBoard, tiles=self.tiles)
 
 	def playCard(self, tile, location):
-		self.board = self.transform(tile, location)
+		self.board = self.transform(tile, location, boardOnly=True)
 
 	def gameOver(self):
-		livingPlayerCount = len(filter((lambda p: p.alive()), self.players))
+		print "is it game over?"
+		livingPlayerCount = len(self.activePlayers())
+		print "there are %d remaining players" % livingPlayerCount
+		print "the board is %s" % ("full" if self.board.isFull() else "not full")
 		return livingPlayerCount == 1 or livingPlayerCount == 0 or self.board.isFull()
 
 	def playTurn(self, turn):
+		print "it is turn %d" % turn
 		currentPlayer = self.players[turn % len(self.players)]
+		print "player %d who is at %s" % (currentPlayer.id, str(currentPlayer.position))
+
 		if not currentPlayer.alive():
-			print "Player %s is eliminated, skipping their turn"
+			print "Player %d is eliminated, skipping their turn" % currentPlayer.id
 			return 1
 		else:
+			print "selecting a tile"
 			selectedTile = currentPlayer.play()
-			self.playCard(selectedTile)
+			print "the selected tile is %d rotated %d times" % (selectedTile.index, selectedTile.rotation)
+			if self.isSuicide(currentPlayer, selectedTile):
+				print "this is suicide :( "
+			else:
+				print "this is not suicide, good move"
+			self.playCard(selectedTile, currentPlayer.play_position())
+			print "moving all players"
 			self.moveAllPlayers()
+			print "wrapping up turn"
 			self.wrapUpTurn(currentPlayer)
 
 	def isSuicide(self, player, tile):
 		tileLocation = (player.position[0] + positions_adders[player.position[2]][0],
 						player.position[1] + positions_adders[player.position[2]][1])
 		tryBoard = self.transform(tile, tileLocation, boardOnly=True)
-		testLocation = tryBoard.followPath(player.location)
+		testLocation = tryBoard.followPath(player.position, player.position[2])
 		return not testLocation[0]
 
-	def moveAllPlayers():
-		for player in filter(lambda p: player.alive(), self.players):
-			newLocation = self.board.followPath(player.location)
-			player.location = (newLocation[1][0], newLocation[1][1], newLocation[2])
+	def moveAllPlayers(self):
+		print "moving all players"
+		print self.board
+		for player in self.activePlayers():
+			newLocation = self.board.followPath(player.position, player.position[2])
+			print "player %d has moved from %s to %s" % (player.id, str(player.position), str(newLocation))
+			player.position = (newLocation[1][0], newLocation[1][1], newLocation[2])
 			if not newLocation[0]:
-				print "Player %s has been eliminated"
+				print "Player %d has been eliminated" % player.id
 				self.handlePlayerDeath(player)
+
+	def activePlayers(self):
+		return [livingPlayer for livingPlayer in self.players if livingPlayer.alive()]
+
 	""" 
 	Anything after a turn, but mostly for drawing cards.
 	Be sure to check whether or not the player is dead,
@@ -133,7 +156,7 @@ class TsuroPhysicalGame(TsuroGame):
 		TsuroGame.__init__(self, players)
 	def wrapUpTurn(self, player):
 		if player.alive():
-			player.askTerminalForCard()
+			player.askTerminalForTile()
 	def handlePlayerDeath(self, player):
 		pass
 # Virtual Game flow
@@ -203,7 +226,7 @@ def main():
 		print "player %d" % i
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
 		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[i] for i in hand]
+		hand = [TsuroTilesAllTiles[c] for c in hand]
 		humanPlayers.append(HumanPlayer(hand, position, game, i))
 
 	numAI = int(raw_input("Number of smart ai players? >> "))
@@ -212,7 +235,7 @@ def main():
 		print "player %d" % (i + numPlayers)
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
 		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[i] for i in hand]
+		hand = [TsuroTilesAllTiles[c] for c in hand]
 		humanPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
 
 
@@ -222,7 +245,7 @@ def main():
 		print "player %d" % (i + numPlayers + numAI)
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
 		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[i] for i in hand]
+		hand = [TsuroTilesAllTiles[c] for c in hand]
 		humanPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
 
 	allPlayers = humanPlayers + aiPlayers + randomPlayers
@@ -232,6 +255,7 @@ def main():
 	while not game.gameOver():
 		game.playTurn(turnNumber)
 		turnNumber += 1
+		print "The turn is over"
 	print "The game is over!"
 	print "Living players:\n-------------"
 	for player in game.players:

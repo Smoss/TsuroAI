@@ -7,7 +7,7 @@ class TsuroBoard:
 		for i in range(0, 8):
 			for j in range(0, 8):
 				if (i % 7 == 0) or (j % 7 == 0):
-					print "i = %d, m7 = %d, j = %d, m7 = %d" % (i, i%7, j, j%7)
+					#print "i = %d, m7 = %d, j = %d, m7 = %d" % (i, i%7, j, j%7)
 					self.board[i][j] = -1
 
 	def placeTile(self, tile, location):
@@ -29,7 +29,7 @@ class TsuroBoard:
 			nextTilePip = pipTransitions[currentPip]
 			nextTile = self.getTile(nextTileLocation)
 			if self.isOutsidePosition(nextTileLocation):
-				return (False, nextTileLocation, 0)
+				return (False, currentLocation, currentPip)
 			elif nextTile is None:
 				return (True, currentLocation, currentPip)
 			else:
@@ -44,8 +44,8 @@ class TsuroBoard:
 		emptySpaces = 0
 		for i in range(1, 7):
 			for j in range(1, 7):
-				emptySpaces += 1 if self.board[i][j] else 0
-		if emptySpaces is 1:
+				emptySpaces += 1 if not self.board[i][j] else 0
+		if emptySpaces == 1:
 			return True
 		else:
 			return False
