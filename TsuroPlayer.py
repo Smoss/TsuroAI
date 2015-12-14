@@ -145,12 +145,10 @@ def gen_States(g_state, deck, curr_player):
 		p_cards = []
 		rotations = [[0]*(len(g_state.active_players()) - 1) + [1] * (len(g_state.active_players()) - 1) + [2] * (len(g_state.active_players()) - 1) + [3] * (len(g_state.active_players()) - 1)]
 		for rot_list in itertools.permutations(rotations, len(g_state.active_players()) - 1):
-			for rot, card_player in zip(rot_list, card_order):
-				print "card_player"
-				print card_player
+			for rot, card_player in zip(rot_list, cp_pairs):
 				card, player = card_player
 				if player in ng_state.active_players():
 					ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
 					p_cards.append(card)
-		yield ng_state, deck - p_cards
+		yield ng_state, set(deck) - set(p_cards)
 # location, name
