@@ -22,6 +22,8 @@ class TsuroPlayer(object):
 
 	def draw(self):
 		self.hand.append(self.game.draw())
+	def print_hand(self):
+		print str([tile.index for tile in self.hand])
 	def play(self, card):
 		pass
 	def select_card(self):
@@ -70,17 +72,28 @@ class AIPlayer (TsuroPlayer):
 	#add bloodlust later
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
-	def play(self):
-		sel_card = self.select_card()
+	def play(self, turn):
+		print "Hand size = " + str(len(self.game.players))
+		if turn / len(self.game.players) <= 1:
+			randomTurn = RandomPlayer(self.hand, self.position, self.game, self.id)
+			sel_card = randomTurn.play(0)
+			sel_card = (0, sel_card, sel_card.rotation)
+		else:
+			sel_card = self.select_card()
+		self.hand = [card for card in self.hand if card.index != sel_card[1].index]
 		return sel_card[1].rotate(ticks = sel_card[2])
 	def askTerminalForTile(self):
-		card = int(raw_input("Please give me a card, -1 for no card"))
+		card = int(raw_input("Please give me a card, -1 for no card >>"))
 		if card != -1:
-			self.hand += TsuroTile.allTiles[card]
+			print self.hand
+			print card
+			print deck[card]
+			self.hand.append(deck[card])
 			print "Domo arigato, from mr smrt roboto"
-		print "I accept that there are no more cards"
+		else:
+			print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5, self.game)
+		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 1, self.game)
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
@@ -90,20 +103,23 @@ class AIPlayer (TsuroPlayer):
 		return sym
 	def traverse(self, best, knowledge, hand, runs, c_state):
 		if runs == 0:
-			return best
+			return (0, None, 0)
 		for card in hand:
-			print card.index
 			for rot in range(4):
+				#print card.index
 				points = 0
 				g_state = c_state.transform(card.rotate(ticks = rot), c_state.players[self.id].play_position())
 
+				
 				if g_state.players[self.id].lost():
+					print "yurp"
 					points += lost_score
 				elif g_state.gameOver():
+					print "nope"
 					return (lost_score * -.1, card, rot)
 				else:
 					num_N_N = g_state.board.numNeighborsAndEmpty(g_state.players[self.id].play_position())
-					points += (g_state.players[self.id].position[0] + g_state.players[self.id].position[1]) * 100 + self.symmetry(card) * 50 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
+					points += (g_state.players[self.id].play_position()[0] + g_state.players[self.id].play_position()[1]) * 100 + self.symmetry(card) * 500 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
 					for state, n_knowledge in gen_States(g_state, self.private_hand, self):
 						if state.players[self.id].lost():
 							print "huh"
@@ -114,28 +130,44 @@ class AIPlayer (TsuroPlayer):
 						else:
 							if len(n_knowledge) > 0:
 								for card_2 in n_knowledge:
-									points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) &	set([card_2]) - set([card]), runs - 1, g_state)[0]
+									points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) | set([card_2]) - set([card]), runs - 1, g_state)[0]
 							else:
 								points += .0003 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
-				print points, card.index, rot
+				#print points, card.index, rot
 		return best
 
 class RandomPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
-	def play(self):
-		card = random.choice(card.rotate(ticks = random.randint(0,3)))
-		while self.game.isSuicide(self, card):
-			card = random.choice(card.rotate(ticks = random.randint(0,3)))
-		return card11
+	def play(self, turn):
+		print "Hand size = " + str(len(self.hand))
+		possiblePlays = []
+		for card in self.hand:
+			for rot in card.rotations():
+				gs = self.game.transform(rot, self.play_position())
+				if gs.players[self.id].alive():
+					possiblePlays.append(rot)
+		if possiblePlays:
+			selectedTile = random.choice(possiblePlays)
+		else:
+			selectedTile = random.choice(self.hand).rotate(random.randint(0, 3)) 
+		self.hand = [card for card in self.hand if card.index != selectedTile.index]
+		return selectedTile
+
+
+
 	def askTerminalForTile(self):
-		card = int(raw_input("Please give me a card, -1 for no card"))
+		card = int(raw_input("Please give me a card, -1 for no card >>"))
 		if card != -1:
-			self.hand += TsuroTile.allTiles[card]
+			print self.hand
+			print card
+			print deck[card]
+			self.hand.append(deck[card])
 			print "Domo arigato, from mr dum roboto"
-		print "I accept that there are no more cards"
+		else:
+			print "I accept that there are no more cards"
 
 
 def gen_States(g_state, deck, curr_player):

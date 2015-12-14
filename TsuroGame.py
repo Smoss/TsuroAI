@@ -60,13 +60,13 @@ class TsuroGame(object):
 		self.tiles = [TsuroTile(i, tileInfo) for i, tileInfo in enumerate(tileData)] if tiles is None else tiles
 
 	def transform(self, tile, location, boardOnly=False):
-		print "Transforming by placing tile %d at %s" % (tile.index, str(location))
+		#print "Transforming by placing tile %d at %s" % (tile.index, str(location))
 		newBoard = copy.deepcopy(self.board)
 		newBoard.placeTile(tile, location)
 		if boardOnly:
 			return newBoard
 		else:
-			newGame = self.cloneGame(copy.deepcopy(self.players), newBoard, self.tiles)
+			newGame = self.cloneGame(copy.deepcopy(self.players), newBoard, copy.deepcopy(self.tiles))
 			newGame.moveAllPlayers()
 			return newGame
 
@@ -75,10 +75,12 @@ class TsuroGame(object):
 
 	def gameOver(self):
 		livingPlayerCount = len(self.activePlayers())
+		#print "there are %d living players out of %d total" % (livingPlayerCount, len(self.players))
 		return livingPlayerCount == 1 or livingPlayerCount == 0 or self.board.isFull()
 
 	def playTurn(self, turn):
 		print "it is turn %d" % turn
+		self.printDeck()
 		currentPlayer = self.players[turn % len(self.players)]
 		print "player %d who is at %s" % (currentPlayer.id, str(currentPlayer.position))
 
@@ -86,21 +88,34 @@ class TsuroGame(object):
 			print "Player %d is eliminated, skipping their turn" % currentPlayer.id
 			return 1
 		else:
+			print "Their hand:"
+			print currentPlayer.print_hand()
+			self.printDeck()
 			print "selecting a tile -----------------------------"
-			selectedTile = currentPlayer.play()
+			selectedTile = currentPlayer.play(turn)
+			self.printDeck()
 			print "------------------------------"
 			print "the selected tile is %d rotated %d times" % (selectedTile.index, selectedTile.rotation)
 			print "the base card paths are %s" % TsuroTilesAllTiles[selectedTile.index].easyPrint()
 			print "The rotated paths are: %s" % selectedTile.easyPrint()
+			self.printDeck()
 			if self.isSuicide(currentPlayer, selectedTile):
 				print "this is suicide :( "
 			else:
 				print "this is not suicide, good move"
+			self.printDeck()
 			self.playCard(selectedTile, currentPlayer.play_position())
+			self.printDeck()
 			print "moving all players"
 			self.moveAllPlayers()
+			self.printDeck()
 			print "wrapping up turn"
 			self.wrapUpTurn(currentPlayer)
+			self.printDeck()
+	def printDeck(self):
+		print "Deck remaining: %d cards" % len(self.tiles)
+		print str([tile.index for tile in self.tiles])
+
 
 	def isSuicide(self, player, tile):
 		tileLocation = (player.position[0] + positions_adders[player.position[2]][0],
@@ -181,13 +196,21 @@ class TsuroVirtualGame(TsuroGame):
 		game = TsuroVirtualGame(players)
 		game.board = board
 		game.tiles = tiles
+		game.dragonIndex = self.dragonIndex
 		return game
+	def dealInitalTiles(self):
+		print "Dealing initial tiles"
+		random.shuffle(self.tiles)
+		for i in range(0, 3):
+			print "deaing everyone card %d" % (i + 1)
+			for player in self.players:
+				player.hand.append(self.tiles.pop())
 
 	def wrapUpTurn(self, player):
 		if player.alive():
-			if self.tiles.count() == 0:
+			if len(self.tiles) == 0:
 				if self.dragonIndex == None:
-					self.dragonIndex = player.index
+					self.dragonIndex = player.id
 				else:
 					return
 			else:
@@ -200,10 +223,10 @@ class TsuroVirtualGame(TsuroGame):
 			#perform dragon distribution
 			while True:
 				targetPlayer = self.players[index]
-				if self.tiles.count() == 0:
+				if len(self.tiles) == 0:
 					self.dragonIndex = index
 					return 
-				elif targetPlayer.hand.count == 3:
+				elif len(targetPlayer.hand) == 3:
 					self.dragonIndex = None
 					return
 				else:
@@ -229,45 +252,75 @@ def main():
 	selection = int(raw_input("1 for virtual 2 for physical >>"))
 	if selection == 1:
 		game = TsuroVirtualGame(None)
+		virtualGame = True
 	else:
+		virtualGame = False
 		game = TsuroPhysicalGame(None)
 
-	"""
+	random.shuffle(startPositions)
+
 	numPlayers = int(raw_input("Number of human players? >> ")) 
 	humanPlayers = []
 	for i in range(0, numPlayers):
 		print "player %d" % i
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[c] for c in hand]
+		if virtualGame:
+			hand = []
+		else:
+			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+			hand = [TsuroTilesAllTiles[c] for c in hand]
 		humanPlayers.append(HumanPlayer(hand, position, game, i))
 
 	numAI = int(raw_input("Number of smart ai players? >> "))
 	aiPlayers = []
 	for i in range(0, numAI):
 		print "player %d" % (i + numPlayers)
-		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[c] for c in hand]
-		humanPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
+		position = raw_input("enter start position: x y z -1 for random>>")
+		if position == "-1":
+			position = startPositions.pop()
+			print "randomly chose %s" % str(position)
+		else:
+			position = map(int, position.split(" "))
+
+		if virtualGame:
+			hand = []
+		else:
+			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+			hand = [TsuroTilesAllTiles[c] for c in hand]		
+		aiPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
 
 
 	numRandom = int(raw_input("Number of random AI players? >> "))
 	randomPlayers = []
 	for i in range(0, numRandom):
 		print "player %d" % (i + numPlayers + numAI)
-		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-		hand = [TsuroTilesAllTiles[c] for c in hand]
-		humanPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
+		position = raw_input("enter start position: x y z -1 for random>>")
+		if position == "-1":
+			position = startPositions.pop()
+			print "randomly chose %s" % str(position)
+		else:
+			position = map(int, position.split(" "))
+		if virtualGame:
+			hand = []
+		else:
+			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+			hand = [TsuroTilesAllTiles[c] for c in hand]		
+		randomPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
 
 	allPlayers = humanPlayers + aiPlayers + randomPlayers
-	"""
-	sAI = AIPlayer([TsuroTilesAllTiles[c] for c in [0, 16, 18]], (0, 3, 5), game, 0)
-	dAI = RandomPlayer([TsuroTilesAllTiles[c] for c in [30, 31, 32]], (3, 0, 2), game, 1)
-	game.players = [sAI, dAI]
-
+	print humanPlayers
+	print aiPlayers
+	print randomPlayers
+	print allPlayers
+	game.players = allPlayers
+	if virtualGame:
+		game.dealInitalTiles()
 	turnNumber = 0
+	print "-------------pregame---------------"
+	game.printDeck()
+
+
+
 	while not game.gameOver():
 		game.playTurn(turnNumber)
 		turnNumber += 1

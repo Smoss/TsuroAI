@@ -1,0 +1,615 @@
+1 for virtual 2 for physical >>Number of human players? >> Number of smart ai players? >> player 0
+enter start position: x y z -1 for random>>randomly chose (2, 0, 2)
+TsuroPlayer created with id 0
+Number of random AI players? >> player 1
+enter start position: x y z -1 for random>>randomly chose (0, 4, 5)
+TsuroPlayer created with id 1
+player 2
+enter start position: x y z -1 for random>>randomly chose (7, 6, 0)
+TsuroPlayer created with id 2
+player 3
+enter start position: x y z -1 for random>>randomly chose (3, 7, 7)
+TsuroPlayer created with id 3
+[]
+[<TsuroPlayer.AIPlayer object at 0x01E85950>]
+[<TsuroPlayer.RandomPlayer object at 0x01E85A30>, <TsuroPlayer.RandomPlayer object at 0x01E85A70>, <TsuroPlayer.RandomPlayer object at 0x01E85C50>]
+[<TsuroPlayer.AIPlayer object at 0x01E85950>, <TsuroPlayer.RandomPlayer object at 0x01E85A30>, <TsuroPlayer.RandomPlayer object at 0x01E85A70>, <TsuroPlayer.RandomPlayer object at 0x01E85C50>]
+Dealing initial tiles
+deaing everyone card 1
+deaing everyone card 2
+deaing everyone card 3
+-------------pregame---------------
+Deck remaining: 23 cards
+[16, 20, 5, 26, 1, 31, 3, 15, 22, 4, 9, 7, 18, 13, 24, 34, 12, 2, 19, 21, 11, 0, 29]
+it is turn 0
+Deck remaining: 23 cards
+[16, 20, 5, 26, 1, 31, 3, 15, 22, 4, 9, 7, 18, 13, 24, 34, 12, 2, 19, 21, 11, 0, 29]
+player 0 who is at (2, 0, 2)
+Their hand:
+[10, 30, 6]
+None
+selecting a tile -----------------------------
+Hand size = 4
+TsuroPlayer created with id 0
+Hand size = 3
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 5)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 1)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 0)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 4)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 2)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 3)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 4)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 3)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 3)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (False, (2, 1), 6)
+Player 0 has been eliminated
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 3)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 0, 2) to (False, (2, 1), 6)
+Player 0 has been eliminated
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+------------------------------
+the selected tile is 10 rotated 0 times
+the base card paths are set([(3, 4), (5, 7), (1, 6), (0, 2)])
+The rotated paths are: set([(3, 4), (5, 7), (1, 6), (0, 2)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (2, 0, 2) to (True, (2, 1), 5)
+player 1 has moved from (0, 4, 5) to (True, (0, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+wrapping up turn
+The turn is over
+it is turn 1
+Deck remaining: 28 cards
+[2, 6, 1, 19, 20, 18, 31, 30, 16, 29, 3, 26, 34, 22, 0, 4, 6, 10, 7, 15, 10, 11, 30, 5, 9, 21, 24, 12]
+player 1 who is at (0, 4, 5)
+Their hand:
+[17, 14, 8]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 4)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 4)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 7)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 3)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 3)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (False, (1, 4), 1)
+Player 1 has been eliminated
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (False, (1, 4), 1)
+Player 1 has been eliminated
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 4)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 7)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 4)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+------------------------------
+the selected tile is 14 rotated 3 times
+the base card paths are set([(2, 7), (4, 5), (0, 3), (1, 6)])
+The rotated paths are: set([(2, 3), (1, 6), (4, 7), (0, 5)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (0, 4, 5) to (True, (1, 4), 5)
+player 2 has moved from (7, 6, 0) to (True, (7, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+wrapping up turn
+The turn is over
+it is turn 2
+Deck remaining: 33 cards
+[21, 29, 1, 8, 6, 10, 16, 0, 15, 4, 6, 9, 14, 30, 17, 17, 5, 2, 3, 7, 14, 19, 26, 10, 18, 8, 34, 12, 11, 22, 31, 24, 30]
+player 2 who is at (7, 6, 0)
+Their hand:
+[27, 32, 33]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 1)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 1)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 7)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (False, (6, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (False, (6, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (False, (6, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 7)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (False, (6, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 7)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (False, (6, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+------------------------------
+the selected tile is 27 rotated 2 times
+the base card paths are set([(3, 7), (2, 6), (0, 5), (1, 4)])
+The rotated paths are: set([(3, 7), (2, 6), (0, 5), (1, 4)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (7, 6, 0) to (True, (6, 6), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 7, 7), 7)
+wrapping up turn
+The turn is over
+it is turn 3
+Deck remaining: 47 cards
+[32, 6, 31, 33, 10, 27, 26, 33, 16, 33, 12, 3, 33, 27, 11, 27, 27, 5, 34, 10, 24, 6, 2, 29, 21, 22, 30, 14, 17, 30, 9, 1, 33, 32, 8, 19, 27, 8, 7, 17, 0, 18, 32, 15, 4, 32, 32]
+player 3 who is at (3, 7, 7)
+Their hand:
+[23, 28, 25]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 7)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 5)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 6)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 0)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 4)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 0)
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 4)
+------------------------------
+the selected tile is 25 rotated 2 times
+the base card paths are set([(5, 7), (1, 3), (0, 2), (4, 6)])
+The rotated paths are: set([(5, 7), (1, 3), (0, 2), (4, 6)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (2, 1, 5) to (True, (2, 1, 5), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 7, 7) to (True, (3, 6), 0)
+wrapping up turn
+The turn is over
+it is turn 4
+Deck remaining: 46 cards
+[32, 6, 31, 33, 10, 27, 26, 33, 16, 33, 12, 3, 33, 27, 11, 27, 27, 5, 34, 10, 24, 6, 2, 29, 21, 22, 30, 14, 17, 30, 9, 1, 33, 32, 8, 19, 27, 8, 7, 17, 0, 18, 32, 15, 4, 32]
+player 0 who is at (2, 1, 5)
+Their hand:
+[30, 6, 13]
+None
+selecting a tile -----------------------------
+Hand size = 4
+TsuroPlayer created with id 0
+Hand size = 3
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (False, (3, 1), 6)
+Player 0 has been eliminated
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 2)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 5)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (2, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 4)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (2, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 4)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 4)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (2, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 4)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+------------------------------
+the selected tile is 13 rotated 0 times
+the base card paths are set([(4, 5), (0, 3), (2, 6), (1, 7)])
+The rotated paths are: set([(4, 5), (0, 3), (2, 6), (1, 7)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (2, 1, 5) to (True, (3, 1), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4, 5), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+wrapping up turn
+The turn is over
+it is turn 5
+Deck remaining: 48 cards
+[10, 11, 29, 32, 6, 13, 6, 33, 24, 33, 34, 17, 32, 33, 15, 33, 21, 14, 26, 8, 7, 32, 27, 16, 5, 30, 17, 2, 27, 31, 4, 12, 32, 18, 0, 33, 27, 3, 1, 30, 27, 22, 19, 8, 30, 10, 6, 9]
+player 1 who is at (1, 4, 5)
+Their hand:
+[17, 8, 20]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 4)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 4)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 7)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (1, 4), 7)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 4)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 7)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 4)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 3)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 7)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 5)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+------------------------------
+the selected tile is 20 rotated 2 times
+the base card paths are set([(2, 7), (1, 6), (3, 4), (0, 5)])
+The rotated paths are: set([(2, 5), (1, 4), (0, 7), (3, 6)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (1, 4, 5) to (True, (2, 4), 7)
+player 2 has moved from (6, 6, 0) to (True, (6, 6, 0), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+wrapping up turn
+The turn is over
+it is turn 6
+Deck remaining: 47 cards
+[10, 11, 29, 32, 6, 13, 6, 33, 24, 33, 34, 17, 32, 33, 15, 33, 21, 14, 26, 8, 7, 32, 27, 16, 5, 30, 17, 2, 27, 31, 4, 12, 32, 18, 0, 33, 27, 3, 1, 30, 27, 22, 19, 8, 30, 10, 6]
+player 2 who is at (6, 6, 0)
+Their hand:
+[32, 33, 14]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (True, (5, 6), 7)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (True, (5, 6), 7)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (True, (5, 6), 7)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 3)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (6, 6), 4)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (False, (5, 6), 2)
+Player 2 has been eliminated
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (True, (5, 6), 0)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+------------------------------
+the selected tile is 33 rotated 2 times
+the base card paths are set([(0, 6), (1, 3), (2, 4), (5, 7)])
+The rotated paths are: set([(0, 6), (1, 3), (2, 4), (5, 7)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (6, 6, 0) to (True, (5, 6), 7)
+player 3 has moved from (3, 6, 0) to (True, (3, 6, 0), 0)
+wrapping up turn
+The turn is over
+it is turn 7
+Deck remaining: 70 cards
+[10, 33, 32, 14, 14, 0, 33, 17, 6, 33, 17, 14, 32, 14, 27, 13, 18, 14, 33, 26, 30, 29, 31, 10, 19, 8, 33, 2, 32, 33, 27, 32, 27, 24, 14, 32, 14, 32, 27, 5, 33, 14, 33, 33, 16, 22, 15, 32, 14, 30, 7, 33, 33, 1, 32, 12, 32, 33, 32, 30, 32, 4, 6, 11, 21, 8, 34, 32, 33, 6]
+player 3 who is at (3, 6, 0)
+Their hand:
+[23, 28, 32]
+None
+selecting a tile -----------------------------
+Hand size = 3
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 0)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (False, (2, 6), 3)
+Player 3 has been eliminated
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 7)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (False, (2, 6), 2)
+Player 3 has been eliminated
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 1)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 1)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 1)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 1)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 7)
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (False, (2, 6), 2)
+Player 3 has been eliminated
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (False, (2, 6), 2)
+Player 3 has been eliminated
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (False, (2, 6), 3)
+Player 3 has been eliminated
+------------------------------
+the selected tile is 23 rotated 2 times
+the base card paths are set([(2, 6), (1, 3), (0, 5), (4, 7)])
+The rotated paths are: set([(0, 3), (2, 6), (1, 4), (5, 7)])
+this is not suicide, good move
+moving all players
+player 0 has moved from (3, 1, 3) to (True, (3, 1, 3), 3)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (3, 6, 0) to (True, (2, 6), 7)
+wrapping up turn
+The turn is over
+it is turn 8
+Deck remaining: 84 cards
+[27, 30, 30, 32, 32, 19, 23, 32, 32, 6, 1, 32, 32, 32, 27, 33, 32, 29, 31, 23, 32, 8, 28, 28, 14, 24, 32, 23, 27, 27, 14, 33, 33, 14, 33, 33, 14, 33, 26, 10, 30, 14, 10, 32, 17, 14, 14, 13, 11, 28, 32, 16, 33, 0, 32, 28, 33, 22, 5, 6, 17, 33, 33, 34, 32, 28, 32, 32, 14, 33, 2, 32, 18, 6, 4, 8, 12, 7, 23, 15, 33, 21, 33, 23]
+player 0 who is at (3, 1, 3)
+Their hand:
+[30, 6, 27]
+None
+selecting a tile -----------------------------
+Hand size = 4
+player 0 has moved from (3, 1, 3) to (True, (3, 2), 4)
+player 1 has moved from (2, 4, 7) to (True, (2, 4, 7), 7)
+player 2 has moved from (5, 6, 7) to (True, (5, 6, 7), 7)
+player 3 has moved from (2, 6, 7) to (True, (2, 6, 7), 7)
