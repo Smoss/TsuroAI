@@ -72,7 +72,7 @@ class TsuroGame(object):
 
 	def gameOver(self):
 		livingPlayerCount = len(filter((lambda p: p.alive()), self.players))
-		return livingPlayerCount == 1 or livingPlayerCount == 0 or board.isFull()
+		return livingPlayerCount == 1 or livingPlayerCount == 0 or self.board.isFull()
 
 	def playTurn(self, turn):
 		currentPlayer = self.players[turn % len(self.players)]
@@ -80,7 +80,7 @@ class TsuroGame(object):
 			print "Player %s is eliminated, skipping their turn"
 			return 1
 		else:
-			selectedTile = currentPlayer.chooseTile()
+			selectedTile = currentPlayer.play()
 			self.playCard(selectedTile)
 			self.moveAllPlayers()
 			self.wrapUpTurn(currentPlayer)
@@ -219,7 +219,7 @@ def main():
 	numRandom = int(raw_input("Number of random AI players? >> "))
 	randomPlayers = []
 	for i in range(0, numRandom):
-		print "player %d" % i + numPlayers + numAI
+		print "player %d" % (i + numPlayers + numAI)
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
 		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
 		hand = [TsuroTilesAllTiles[i] for i in hand]

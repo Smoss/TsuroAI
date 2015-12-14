@@ -9,14 +9,14 @@ class TsuroPlayer(object):
 	def __init__(self, hand, position, game, P_id):
 		self.position = position
 		self.hand = hand
-		self.private_hand = deck - self.hand
+		self.private_hand = set(deck) - set(self.hand)
 		self.game = game
 		self.id = P_id
 	def alive(self):
 		return not self.lost()
 	def lost(self):
 		adder = positions_adders[self.position[2]]
-		return (position[0] + adder[0]) % 7 == 0 or (position[1] + adder[1]) % 7 == 0
+		return (self.position[0] + adder[0]) % 7 == 0 or (self.position[1] + adder[1]) % 7 == 0
 	def draw(self):
 		self.hand.append(self.game.draw())
 	def play(self, card):
@@ -77,7 +77,7 @@ class AIPlayer (TsuroPlayer):
 			print "Domo arigato, from mr smrt roboto"
 		print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5))
+		return self.traverse(((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5))
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
