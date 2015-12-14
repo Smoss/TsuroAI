@@ -121,6 +121,8 @@ class TsuroGame(object):
 
 	def activePlayers(self):
 		return [livingPlayer for livingPlayer in self.players if livingPlayer.alive()]
+	def active_players(self):
+		return self.activePlayers()
 
 	""" 
 	Anything after a turn, but mostly for drawing cards.
@@ -220,6 +222,7 @@ def main():
 	else:
 		game = TsuroPhysicalGame(None)
 
+	"""
 	numPlayers = int(raw_input("Number of human players? >> ")) 
 	humanPlayers = []
 	for i in range(0, numPlayers):
@@ -249,7 +252,10 @@ def main():
 		humanPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
 
 	allPlayers = humanPlayers + aiPlayers + randomPlayers
-	game.players = allPlayers
+	"""
+	sAI = AIPlayer([TsuroTilesAllTiles[c] for c in [0, 16, 18]], (0, 3, 5), game, 0)
+	dAI = RandomPlayer([TsuroTilesAllTiles[c] for c in [30, 31, 32]], (3, 0, 2), game, 1)
+	game.players = [sAI, dAI]
 
 	turnNumber = 0
 	while not game.gameOver():

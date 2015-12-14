@@ -85,7 +85,7 @@ class AIPlayer (TsuroPlayer):
 		sym = 0
 		for pip in card.paths:
 			for x in range(2, 8, 2):
-				if card.paths[(pip + x)] % 8 == card.paths[pip]:
+				if card.paths[(pip + x) % 8]  == ((card.paths[pip] + x) % 8):
 					sym += 1
 		return sym
 	def traverse(self, best, knowledge, hand, runs):
@@ -107,7 +107,7 @@ class AIPlayer (TsuroPlayer):
 				else:
 					num_N_N = g_state.board.numNeighborsAndEmpty(g_state.players[self.id].play_position())
 					points += (g_state.players[self.id].position[0] + g_state.players[self.id].position[1]) * 100 + self.symmetry(card) * 50 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
-					for state, n_knowledge in gen_States(g_state, self.private_hand):
+					for state, n_knowledge in gen_States(g_state, self.private_hand, self):
 						if not self in state.active_players():
 							points += lost_score * .3
 						elif len(state.active_players()) == 1:
@@ -139,13 +139,16 @@ class RandomPlayer(TsuroPlayer):
 
 
 def gen_States(g_state, deck, curr_player):
-	for card_order in itertools.permutations(deck, g_state.active_players() - 1):
+	for card_order in itertools.permutations(deck, len(g_state.active_players()) - 1):
 		ng_state = copy.deepcopy(g_state)
 		cp_pairs = [(list(set(g_state.active_players())- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
 		rotations = [[0]*(len(g_state.active_players()) - 1) + [1] * (len(g_state.active_players()) - 1) + [2] * (len(g_state.active_players()) - 1) + [3] * (len(g_state.active_players()) - 1)]
-		for rot_list in itertools.permutations(len(g_state.active_players()) - 1):
-			for rot, card, player in  itertools.izip(rot_list, card_order):
+		for rot_list in itertools.permutations(rotations, len(g_state.active_players()) - 1):
+			for rot, card_player in zip(rot_list, card_order):
+				print "card_player"
+				print card_player
+				card, player = card_player
 				if player in ng_state.active_players():
 					ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
 					p_cards.append(card)
