@@ -29,9 +29,9 @@ class TsuroBoard:
 			nextTilePip = pipTransitions[currentPip]
 			nextTile = self.getTile(nextTileLocation)
 			if self.isOutsidePosition(nextTileLocation):
-				return -1
+				return (False, nextTileLocation, 0)
 			elif nextTile is None:
-				return (currentLocation, currentPip)
+				return (True, currentLocation, currentPip)
 			else:
 				currentLocation = nextTileLocation
 				currentPip = nextTile.paths[nextTilePip]

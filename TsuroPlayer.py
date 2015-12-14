@@ -11,6 +11,8 @@ class TsuroPlayer:
 		self.private_hand = deck - self.hand
 		self.game = game
 		self.id = P_id
+	def alive(self):
+		return not self.lost()
 	def lost(self):
 		adder = positions_adders[self.position[2]]
 		return (position[0] + adder[0]) % 7 == 0 or (position[1] + adder[1]) % 7 == 0

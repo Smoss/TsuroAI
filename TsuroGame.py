@@ -1,4 +1,5 @@
-import copy, sys
+import copy, sys, TsuroBoard, TsuroTile, 
+from TsuroPlayer import *
 tiles = [[[(0, 1), (2, 3), (4, 5), (6, 7)],
          [(0, 7), (1, 6), (2, 3), (4, 5)],
 		 [(4, 5), (6, 3), (7, 0), (1, 2)],
@@ -50,22 +51,25 @@ returns:
     1 - turn skipped, already dead
 """
 class TsuroGame():
-	def __init__(self, players):
+	def __init__(self, players, board=None, tiles=None):
 		self.players = players
-		self.board = TsuroBoard()
-		self.tiles = [TsuroTile(tileInfo) for tileInfo in tiledata]
+		self.board = TsuroBoard() if board is None else board
+		self.tiles = [TsuroTile(tileInfo) for tileInfo in tiledata] if tiles is None else tiles
 
-	def transform(self, tile, location):
+	def transform(self, tile, location, boardOnly=False):
 		newBoard = copy.deepCopy(self.board)
 		newBoard.placeTile(tile, location)
-		return newBoard
+		if boardOnly:
+			return newBoard
+		else:
+			return TsuroGame(self.players, newBoard, self.tiles)
 
 	def playCard(self, tile, location):
 		self.board = self.transform(tile, location)
 
 	def gameOver(self):
 		livingPlayerCount = len(filter((lambda p: p.alive()), self.players))
-		return livingPlayerCount == 1 or livingPlayerCount == 0
+		return livingPlayerCount == 1 or livingPlayerCount == 0 or board.isFull()
 
 	def playTurn(self, turn):
 		currentPlayer = self.players[turn % len(self.players)]
@@ -77,6 +81,13 @@ class TsuroGame():
 			self.playCard(selectedTile)
 			self.moveAllPlayers()
 			self.wrapUpTurn(currentPlayer)
+
+	def isSuicide(self, player, tile):
+		tileLocation = (player.position[0] + positions_adders[player.position[2]][0],
+						player.position[1] + positions_adders[player.position[2]][1])
+		tryBoard = self.transform(tile, tileLocation, boardOnly=True)
+		testLocation = tryBoard.followPath(player.location)
+		return not testLocation[0]
 
 	def moveAllPlayers():
 		for player in filter(lambda p: player.alive(), self.players):
@@ -177,10 +188,68 @@ class TsuroVirtualGame(TsuroGame):
 
 
 def __main__():
-	print "Number of human players?"
-	numPlayers = int(sys.stdin.readLine())
-	print "Number of AI players?"
-	numAI = int(sys.stdin.readLine())
+	selection = int(raw_input("1 for virtual 2 for physical >>"))
+	if selection == 1:
+		game = TsuroVirtualGame(None)
+	else:
+		game = TsuroPhysicalGame(None)
+
+	numPlayers = int(raw_input("Number of human players? >> ")) 
+	humanPlayers = []
+	for i in range(0, numPlayers):
+		print "player %d" % i
+		position = map(int, raw_input("enter start position: x y z >>").split(" "))
+		hand = map(int, raw_input("enter tile numbers: >>"))
+		hand = [TsuroTile.allTiles[i] for i in hand]
+		humanPlayers.append(HumanPlayer(hand, position, game, i))
+
+	numAI = int(raw_input("Number of smart ai players? >> "))
+	aiPlayers = []
+	for i in range(0, numAI):
+		print "player %d" % (i + numPlayers)
+		position = map(int, raw_input("enter start position: x y z >>").split(" "))
+		hand = map(int, raw_input("enter tile numbers: >>"))
+		hand = [TsuroTile.allTiles[i] for i in hand]
+		humanPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
+
+
+	numRandom = int(raw_input("Number of random AI players? >> "))
+	randomPlayers = []
+	for i in range(0, numRandom):
+		print "player %d" % i + numPlayers + numAI
+		position = map(int, raw_input("enter start position: x y z >>").split(" "))
+		hand = map(int, raw_input("enter tile numbers: >>"))
+		hand = [TsuroTile.allTiles[i] for i in hand]
+		humanPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
+
+	allPlayers = humanPlayers + aiPlayers + randomPlayers
+	game.players = allPlayers
+
+	turnNumber = 0
+	while not game.gameOver():
+		game.playTurn(turnNumber)
+		turnNumber += 1
+	print "The game is over!"
+	print "Living players:\n-------------"
+	for player in game.players:
+		if player.alive():
+			print player.id
+			
+
+
+
+
+
+
+	"""
+		self.position = position
+		self.hand = hand
+		self.private_hand = deck - self.hand
+		self.game = game
+		self.id = P_id
+
+	"""
+
 
 
 
