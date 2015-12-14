@@ -44,7 +44,7 @@ class HumanPlayer(TsuroPlayer):
 							if rot > 3:
 								print "invalid rot # (0, 3)"
 								continue
-							go = not self.game.play(self, card, rot, self.play_position())
+							go = not self.game.play(self, card.rotate(ticks = rot), self.play_position())
 						except ValueError:
 							print "You did not enter your play in the format #,#"
 					else:
@@ -63,7 +63,7 @@ class AIPlayer (TsuroPlayer):
 		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
 	def play(self):
 		sel_card = self.select_card()
-		self.game.play(self, sel_card[1], sel_card[2], self.play_position())
+		self.game.play(self, sel_card[1].rotate(ticks = sel_card[2]), self.play_position())
 		self.hand.remove(sel_card[1])
 	def select_card(self):
 		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
@@ -80,10 +80,10 @@ class AIPlayer (TsuroPlayer):
 		for card in self.hand:
 			for rot in range(4):
 				points = 0
-				if not self in self.game.transform(card, rot, self.play_position).active_players:
+				if not self in self.game.transform(card.rotate(ticks = rot), self.play_position()).active_players:
 					points = lost_score
-				elif len(self.game.transform(card, rot).active_players) == 1:
-					return (lost_score * -.1, card)
+				elif len(self.game.transform(card.rotate(ticks = rot), self.play_position()).active_players) == 1:
+					return (lost_score * -.1, card, rot)
 				else:
 					g_state = copy.deepcopy(game)
 					points += (self.position[0] + self.position[1]) * 100 + self.symmetry(card) * 200 - len(state.active_players) * 300
@@ -103,12 +103,12 @@ class RandomPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
 	def play(self):
-		while not self.game.play(self, random.choice(card), random.choice(rot), self.play_position()):
+		while not self.game.play(self, random.choice(card.rotate(ticks = random.randint(0,3))), self.play_position()):
 			pass
 
 
 def gen_States(g_state, deck, curr_player):
-	for card_order in itertools.permutations(g_state.active_players - 1):
+	for card_order.paths in itertools.permutations(g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
 		cp_pairs = [(g_state.active_players.remove(curr_player)[x]: card_order[x]) for x in range(len(card_order))]
 		p_cards = []
@@ -116,7 +116,7 @@ def gen_States(g_state, deck, curr_player):
 		for rot_list in itertools.permutations(g_state.active_players - 1):
 			for rot, card, player in  itertools.izip(rot_list, card_order):
 				if player in ng_state.active_players:
-					ng_state = ng_state.transform(card, rot, player.play_position())
+					ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
 					p_cards.append(card)
 		yield ng_state, deck - p_cards
 
