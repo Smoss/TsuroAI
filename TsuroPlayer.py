@@ -133,7 +133,7 @@ class RandomPlayer(TsuroPlayer):
 def gen_States(g_state, deck, curr_player):
 	for card_order in itertools.permutations(deck, g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
-		cp_pairs = [list(set(g_state.active_players)- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
+		cp_pairs = [(list(set(g_state.active_players)- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
 		rotations = [[0]*(g_state.active_players - 1) + [1] * (g_state.active_players - 1) + [2] * (g_state.active_players - 1) + [3] * (g_state.active_players - 1)]
 		for rot_list in itertools.permutations(g_state.active_players - 1):
