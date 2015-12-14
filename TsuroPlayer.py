@@ -106,11 +106,11 @@ class AIPlayer (TsuroPlayer):
 					return (lost_score * -.1, card, rot)
 				else:
 					num_N_N = g_state.board.numNeighborsAndEmpty(g_state.players[self.id].play_position())
-					points += (g_state.players[self.id].position[0] + g_state.players[self.id].position[1]) * 100 + self.symmetry(card) * 50 - len(g_state.active_players-1) * 300 + num_N_N[1] * 500
+					points += (g_state.players[self.id].position[0] + g_state.players[self.id].position[1]) * 100 + self.symmetry(card) * 50 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
 					for state, n_knowledge in gen_States(g_state, self.private_hand):
-						if not self in state.active_players:
+						if not self in state.active_players():
 							points += lost_score * .3
-						elif game.gameOver():
+						elif len(state.active_players()) == 1:
 							points += lost_score * -.1
 						else:
 							if len(n_knowledge) > 0:
@@ -139,14 +139,14 @@ class RandomPlayer(TsuroPlayer):
 
 
 def gen_States(g_state, deck, curr_player):
-	for card_order in itertools.permutations(deck, g_state.active_players - 1):
+	for card_order in itertools.permutations(deck, g_state.active_players() - 1):
 		ng_state = copy.deepcopy(g_state)
-		cp_pairs = [(list(set(g_state.active_players)- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
+		cp_pairs = [(list(set(g_state.active_players())- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
-		rotations = [[0]*(g_state.active_players - 1) + [1] * (g_state.active_players - 1) + [2] * (g_state.active_players - 1) + [3] * (g_state.active_players - 1)]
-		for rot_list in itertools.permutations(g_state.active_players - 1):
+		rotations = [[0]*(len(g_state.active_players()) - 1) + [1] * (len(g_state.active_players()) - 1) + [2] * (len(g_state.active_players()) - 1) + [3] * (len(g_state.active_players()) - 1)]
+		for rot_list in itertools.permutations(len(g_state.active_players()) - 1):
 			for rot, card, player in  itertools.izip(rot_list, card_order):
-				if player in ng_state.active_players:
+				if player in ng_state.active_players():
 					ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
 					p_cards.append(card)
 		yield ng_state, deck - p_cards
