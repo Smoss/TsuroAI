@@ -107,9 +107,9 @@ class AIPlayer (TsuroPlayer):
 						else:
 							if len(n_knowledge) > 0:
 								for card in n_knowledge:
-									points += .3 * self.traverse(best, n_knowledge - card, hand.append(card), runs - 1)[0]
+									points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand.append(card), runs - 1)[0]
 							else:
-								points += .3 * self.traverse(best, n_knowledge - card, hand, runs - 1)[0]
+								points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1)[0]
 				if points > best[0]:
 					best = (points, card, rot)
 		return best
@@ -121,7 +121,7 @@ class RandomPlayer(TsuroPlayer):
 		card = random.choice(card.rotate(ticks = random.randint(0,3)))
 		while self.game.isSuicide(self, card):
 			card = random.choice(card.rotate(ticks = random.randint(0,3)))
-		return card
+		return card11
 	def askTerminalForTile(self):
 		card = int(raw_input("Please give me a card, -1 for no card"))
 		if card != -1:
@@ -133,7 +133,7 @@ class RandomPlayer(TsuroPlayer):
 def gen_States(g_state, deck, curr_player):
 	for card_order in itertools.permutations(deck, g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
-		cp_pairs = [(g_state.active_players.remove(curr_player)[x], card_order[x]) for x in range(len(card_order))]
+		cp_pairs = [list(set(g_state.active_players)- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
 		rotations = [[0]*(g_state.active_players - 1) + [1] * (g_state.active_players - 1) + [2] * (g_state.active_players - 1) + [3] * (g_state.active_players - 1)]
 		for rot_list in itertools.permutations(g_state.active_players - 1):
