@@ -1,6 +1,8 @@
 import itertools
+import random
 
 lost_score = -10000000
+positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
 class TsuroPlayer:
 	"""Contains the player's hand and position on the board."""
 	def __init__(self, hand, position, game, P_id):
@@ -12,12 +14,47 @@ class TsuroPlayer:
 	def lost(self):
 		adder = positions_adders[self.position[2]]
 		return (position[0] + adder[0]) % 7 == 0 or (position[1] + adder[1]) % 7 == 0
+	def draw(self):
+		self.hand.append(self.game.draw())
 	def play(self, card):
 		pass
+	def select_card(self):
+		pass
+	def play_position(self):
+		return tuple(sum(x) for x in zip(player.position[:2], positions_adders[player.position[2]]))
 
 class HumanPlayer(TsuroPlayer):
-	def __init__(self, name, position):
-
+	def __init__(self, hand, position, game, P_id):
+		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
+	def play(self):
+		go = true
+		while go:
+			print "You currently have these cards in your hand " + zip(range(len(self.hand)),self.hand)
+			play = input("Please enter your move in the form (card#,rotation#) no spaces:")
+			if len(play) != 3:
+				if ',' in play:
+					play_l = play.split(',')
+					if len(play_l) != 2:
+						try:
+							card = int(play_l[0])
+							if card > len(self.hand):
+								print "invalid card #"
+								continue
+							rot = int(play_l[1])
+							if rot > 3:
+								print "invalid rot # (0, 3)"
+								continue
+							go = not self.game.play(self, card, rot, self.play_position())
+						except ValueError:
+							print "You did not enter your play in the format #,#"
+					else:
+						print "You did not enter your play in the format #,#"
+				else:
+					print "You did not enter your play in the format #,#"
+			else:
+				print "There should be only 3 characters in your play"
+			if not go:
+				print "You gave a losing move when you have a non losing move"
 
 
 class AIPlayer (TsuroPlayer):
@@ -25,7 +62,9 @@ class AIPlayer (TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
 	def play(self):
-		self.play(self, self.select_card())
+		sel_card = self.select_card()
+		self.game.play(self, sel_card[1], sel_card[2], self.play_position())
+		self.hand.remove(sel_card[1])
 	def select_card(self):
 		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
 	def symmetry(self, card):
@@ -41,7 +80,7 @@ class AIPlayer (TsuroPlayer):
 		for card in self.hand:
 			for rot in range(4):
 				points = 0
-				if not self in self.game.transform(card, rot).active_players:
+				if not self in self.game.transform(card, rot, self.play_position).active_players:
 					points = lost_score
 				elif len(self.game.transform(card, rot).active_players) == 1:
 					return (lost_score * -.1, card)
@@ -60,6 +99,14 @@ class AIPlayer (TsuroPlayer):
 					best = (points, card, rot)
 		return best
 
+class RandomPlayer(TsuroPlayer):
+	def __init__(self, hand, position, game, P_id):
+		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
+	def play(self):
+		while not self.game.play(self, random.choice(card), random.choice(rot), self.play_position()):
+			pass
+
+
 def gen_States(g_state, deck, curr_player):
 	for card_order in itertools.permutations(g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
@@ -69,7 +116,7 @@ def gen_States(g_state, deck, curr_player):
 		for rot_list in itertools.permutations(g_state.active_players - 1):
 			for rot, card, player in  itertools.izip(rot_list, card_order):
 				if player in ng_state.active_players:
-					ng_state = ng_state.transform(card, rot)
+					ng_state = ng_state.transform(card, rot, player.play_position())
 					p_cards.append(card)
 		yield ng_state, deck - p_cards
 
