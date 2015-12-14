@@ -95,10 +95,6 @@ class AIPlayer (TsuroPlayer):
 			for rot in range(4):
 				points = 0
 				g_state = self.game.transform(card.rotate(ticks = rot), self.play_position())
-				
-				print "gstate info:"
-				print g_state.players
-				g_state.board.printBoard()
 
 				if g_state.players[self.id].lost():
 					points = lost_score

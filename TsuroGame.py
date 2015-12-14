@@ -58,25 +58,23 @@ class TsuroGame(object):
 		self.players = players
 		self.board = TsuroBoard() if board is None else board
 		self.tiles = [TsuroTile(i, tileInfo) for i, tileInfo in enumerate(tileData)] if tiles is None else tiles
-		print "board: "
-		print self.board
 
 	def transform(self, tile, location, boardOnly=False):
+		print "Transforming by placing tile %d at %s" % (tile.index, str(location))
 		newBoard = copy.deepcopy(self.board)
 		newBoard.placeTile(tile, location)
 		if boardOnly:
 			return newBoard
 		else:
-			return TsuroGame(copy.deepcopy(self.players), board=newBoard, tiles=self.tiles)
+			newGame = self.cloneGame(copy.deepcopy(self.players), newBoard, self.tiles)
+			newGame.moveAllPlayers()
+			return newGame
 
 	def playCard(self, tile, location):
 		self.board = self.transform(tile, location, boardOnly=True)
 
 	def gameOver(self):
-		print "is it game over?"
 		livingPlayerCount = len(self.activePlayers())
-		print "there are %d remaining players" % livingPlayerCount
-		print "the board is %s" % ("full" if self.board.isFull() else "not full")
 		return livingPlayerCount == 1 or livingPlayerCount == 0 or self.board.isFull()
 
 	def playTurn(self, turn):
@@ -88,8 +86,9 @@ class TsuroGame(object):
 			print "Player %d is eliminated, skipping their turn" % currentPlayer.id
 			return 1
 		else:
-			print "selecting a tile"
+			print "selecting a tile -----------------------------"
 			selectedTile = currentPlayer.play()
+			print "------------------------------"
 			print "the selected tile is %d rotated %d times" % (selectedTile.index, selectedTile.rotation)
 			if self.isSuicide(currentPlayer, selectedTile):
 				print "this is suicide :( "
@@ -109,8 +108,6 @@ class TsuroGame(object):
 		return not testLocation[0]
 
 	def moveAllPlayers(self):
-		print "moving all players"
-		print self.board
 		for player in self.activePlayers():
 			newLocation = self.board.followPath(player.position, player.position[2])
 			print "player %d has moved from %s to %s" % (player.id, str(player.position), str(newLocation))
@@ -156,6 +153,11 @@ class TsuroGame(object):
 class TsuroPhysicalGame(TsuroGame):
 	def __init__(self, players):
 		TsuroGame.__init__(self, players)
+	def cloneGame(self, players, board, tiles):
+		game = TsuroPhysicalGame(players)
+		game.board = board
+		game.tiles = tiles
+		return game
 	def wrapUpTurn(self, player):
 		if player.alive():
 			player.askTerminalForTile()
@@ -173,6 +175,12 @@ class TsuroVirtualGame(TsuroGame):
 	def __init__(self, players):
 		TsuroGame.__init__(self, players)
 		self.dragonIndex = None
+	def cloneGame(self, players, board, tiles):
+		game = TsuroVirtualGame(players)
+		game.board = board
+		game.tiles = tiles
+		return game
+
 	def wrapUpTurn(self, player):
 		if player.alive():
 			if self.tiles.count() == 0:

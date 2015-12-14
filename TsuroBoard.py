@@ -23,8 +23,6 @@ class TsuroBoard:
 		currentLocation = location
 		currentPip = pip
 		while True:
-			print currentLocation
-			print currentPip
 			nextTileLocation = (currentLocation[0] + position_adders[currentPip][0], currentLocation[1] + position_adders[currentPip][1])
 			nextTilePip = pipTransitions[currentPip]
 			nextTile = self.getTile(nextTileLocation)
