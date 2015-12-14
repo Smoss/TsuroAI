@@ -3,7 +3,7 @@ import random
 import copy
 from TsuroTile import allTiles as deck
 
-lost_score = -10000000
+lost_score = -10000
 positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
 class TsuroPlayer(object):
 	"""Contains the player's hand and position on the board."""
@@ -80,7 +80,7 @@ class AIPlayer (TsuroPlayer):
 			print "Domo arigato, from mr smrt roboto"
 		print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
+		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5, self.game)
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
@@ -88,13 +88,13 @@ class AIPlayer (TsuroPlayer):
 				if card.paths[(pip + x) % 8]  == ((card.paths[pip] + x) % 8):
 					sym += 1
 		return sym
-	def traverse(self, best, knowledge, hand, runs):
+	def traverse(self, best, knowledge, hand, runs, c_state):
 		if runs == 0:
 			return best
 		for card in self.hand:
 			for rot in range(4):
 				points = 0
-				g_state = self.game.transform(card.rotate(ticks = rot), self.play_position())
+				g_state = c_state.transform(card.rotate(ticks = rot), c_state.players[self.id].play_position())
 
 				if g_state.players[self.id].lost():
 					points = lost_score
@@ -111,9 +111,9 @@ class AIPlayer (TsuroPlayer):
 						else:
 							if len(n_knowledge) > 0:
 								for card in n_knowledge:
-									points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand.append(card), runs - 1)[0]
+									points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand.append(card), runs - 1, g_state)[0]
 							else:
-								points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1)[0]
+								points += .3 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
 		return best
