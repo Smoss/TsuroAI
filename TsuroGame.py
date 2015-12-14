@@ -1,6 +1,9 @@
-import copy, sys, TsuroBoard, TsuroTile, 
+import copy, sys
+from TsuroBoard import *
+from TsuroTile import TsuroTile
+from TsuroTile import allTiles as TsuroTilesAllTiles
 from TsuroPlayer import *
-tiles = [[[(0, 1), (2, 3), (4, 5), (6, 7)],
+tileData = [[(0, 1), (2, 3), (4, 5), (6, 7)],
          [(0, 7), (1, 6), (2, 3), (4, 5)],
 		 [(4, 5), (6, 3), (7, 0), (1, 2)],
 		 [(0, 7), (1, 2), (3, 4), (5, 6)],
@@ -50,11 +53,11 @@ returns:
     0 - all good, turn taken
     1 - turn skipped, already dead
 """
-class TsuroGame():
+class TsuroGame(object):
 	def __init__(self, players, board=None, tiles=None):
 		self.players = players
 		self.board = TsuroBoard() if board is None else board
-		self.tiles = [TsuroTile(tileInfo) for tileInfo in tiledata] if tiles is None else tiles
+		self.tiles = [TsuroTile(i, tileInfo) for i, tileInfo in enumerate(tileData)] if tiles is None else tiles
 
 	def transform(self, tile, location, boardOnly=False):
 		newBoard = copy.deepCopy(self.board)
@@ -127,10 +130,10 @@ class TsuroGame():
  #     Don't do anything
 class TsuroPhysicalGame(TsuroGame):
 	def __init__(self, players):
-		super(TsuroGame, self).__init__(position)
+		TsuroGame.__init__(self, players)
 	def wrapUpTurn(self, player):
 		if player.alive():
-			player.promptForCard()
+			player.askTerminalForCard()
 	def handlePlayerDeath(self, player):
 		pass
 # Virtual Game flow
@@ -143,7 +146,7 @@ class TsuroPhysicalGame(TsuroGame):
 #		Asks game for new card 
 class TsuroVirtualGame(TsuroGame):
 	def __init__(self, players):
-		super(TsuroGame, self).__init__(position)
+		TsuroGame.__init__(self, players)
 		self.dragonIndex = None
 	def wrapUpTurn(self, player):
 		if player.alive():
@@ -187,7 +190,7 @@ class TsuroVirtualGame(TsuroGame):
 
 
 
-def __main__():
+def main():
 	selection = int(raw_input("1 for virtual 2 for physical >>"))
 	if selection == 1:
 		game = TsuroVirtualGame(None)
@@ -199,8 +202,8 @@ def __main__():
 	for i in range(0, numPlayers):
 		print "player %d" % i
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>"))
-		hand = [TsuroTile.allTiles[i] for i in hand]
+		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+		hand = [TsuroTilesAllTiles[i] for i in hand]
 		humanPlayers.append(HumanPlayer(hand, position, game, i))
 
 	numAI = int(raw_input("Number of smart ai players? >> "))
@@ -208,8 +211,8 @@ def __main__():
 	for i in range(0, numAI):
 		print "player %d" % (i + numPlayers)
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>"))
-		hand = [TsuroTile.allTiles[i] for i in hand]
+		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+		hand = [TsuroTilesAllTiles[i] for i in hand]
 		humanPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
 
 
@@ -218,8 +221,8 @@ def __main__():
 	for i in range(0, numRandom):
 		print "player %d" % i + numPlayers + numAI
 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
-		hand = map(int, raw_input("enter tile numbers: >>"))
-		hand = [TsuroTile.allTiles[i] for i in hand]
+		hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+		hand = [TsuroTilesAllTiles[i] for i in hand]
 		humanPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI))
 
 	allPlayers = humanPlayers + aiPlayers + randomPlayers
@@ -234,6 +237,9 @@ def __main__():
 	for player in game.players:
 		if player.alive():
 			print player.id
+
+if __name__ == "__main__":
+	main()
 			
 
 

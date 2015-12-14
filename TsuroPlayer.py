@@ -1,9 +1,10 @@
 import itertools
 import random
+from TsuroTile import allTiles as deck
 
 lost_score = -10000000
 positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0), 5 : (1, 0), 6 : (0, -1), 7 : (0, -1)}
-class TsuroPlayer:
+class TsuroPlayer(object):
 	"""Contains the player's hand and position on the board."""
 	def __init__(self, hand, position, game, P_id):
 		self.position = position
@@ -27,7 +28,7 @@ class TsuroPlayer:
 
 class HumanPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
-		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
+		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self):
 		go = true
 		while go:
@@ -57,17 +58,26 @@ class HumanPlayer(TsuroPlayer):
 				print "There should be only 3 characters in your play"
 			if not go:
 				print "You gave a losing move when you have a non losing move"
+	def askTerminalForTile(self):
+		raw_input("A human is asking for a card, give it to them")
+
 
 
 class AIPlayer (TsuroPlayer):
 	#add bloodlust later
 	def __init__(self, hand, position, game, P_id):
-		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
+		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self):
 		sel_card = self.select_card()
 		return sel_card[1].rotate(ticks = sel_card[2])
+	def askTerminalForTile(self):
+		card = int(raw_input("Please give me a card, -1 for no card"))
+		if card != -1:
+			self.hand += TsuroTile.allTiles[card]
+			print "Domo arigato, from mr smrt roboto"
+		print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5)
+		return self.traverse((-(float("inf"), self.hand[0], 0), self.private_hand, self.hand, 5))
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
@@ -95,7 +105,7 @@ class AIPlayer (TsuroPlayer):
 						elif game.gameOver():
 							points += lost_score * -.1
 						else:
-							if len(n_knowledge) > 0):
+							if len(n_knowledge) > 0:
 								for card in n_knowledge:
 									points += .3 * self.traverse(best, n_knowledge - card, hand.append(card), runs - 1)[0]
 							else:
@@ -106,18 +116,24 @@ class AIPlayer (TsuroPlayer):
 
 class RandomPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
-		super(TsuroPlayer, self).__init__(hand, position, game, P_id)
+		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self):
 		card = random.choice(card.rotate(ticks = random.randint(0,3)))
 		while self.game.isSuicide(self, card):
 			card = random.choice(card.rotate(ticks = random.randint(0,3)))
 		return card
+	def askTerminalForTile(self):
+		card = int(raw_input("Please give me a card, -1 for no card"))
+		if card != -1:
+			self.hand += TsuroTile.allTiles[card]
+			print "Domo arigato, from mr dum roboto"
+		print "I accept that there are no more cards"
 
 
 def gen_States(g_state, deck, curr_player):
 	for card_order in itertools.permutations(deck, g_state.active_players - 1):
 		ng_state = copy.deepcopy(g_state)
-		cp_pairs = [(g_state.active_players.remove(curr_player)[x]: card_order[x]) for x in range(len(card_order))]
+		cp_pairs = [(g_state.active_players.remove(curr_player)[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
 		rotations = [[0]*(g_state.active_players - 1) + [1] * (g_state.active_players - 1) + [2] * (g_state.active_players - 1) + [3] * (g_state.active_players - 1)]
 		for rot_list in itertools.permutations(g_state.active_players - 1):
