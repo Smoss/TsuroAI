@@ -169,6 +169,39 @@ class RandomPlayer(TsuroPlayer):
 		else:
 			print "I accept that there are no more cards"
 
+from montecarlo import runSim
+
+class MonteCarloPlayer(TsuroPlayer):
+	def __init__(self, hand, position, game, P_id):
+		TsuroPlayer.__init__(self, hand, position, game, P_id)
+	def play(self, turn):
+		mcResults = runSim(self.game, self.id, 500)
+		selectedTile = None
+		maxVal = float("-inf")
+		for tile in mcResults:
+			runs, total = mcResults[tile]
+			val = total / runs
+			#print "Tile: %d rot=%d = (%s) = %f" % (tile.index, tile.rotation, str(mcResults[tile]), val)
+			if val > maxVal:
+				selectedTile = tile
+				maxVal = val
+		#print "Max: %d, %d, %f" % (selectedTile.index, selectedTile.rotation, maxVal)
+		self.hand = [tile for tile in self.hand if tile.index != selectedTile.index]
+		return selectedTile
+
+	def askTerminalForTile(self):
+		card = int(raw_input("Please give me a card, -1 for no card >>"))
+		if card != -1:
+			print self.hand
+			print card
+			print deck[card]
+			self.hand.append(deck[card])
+			print "Domo arigato, from mr dum roboto"
+		else:
+			print "I accept that there are no more cards"
+
+
+
 
 def gen_States(g_state, deck, curr_player):
 	for card_order in itertools.permutations(deck, len(g_state.active_players()) - 1):
