@@ -86,6 +86,7 @@ class AIPlayer (TsuroPlayer):
 			print deck[card]
 			self.hand.append(deck[card])
 	def select_card(self):
+		"""Runs the initial call to traverse"""
 		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 2, self.game)
 	def symmetry(self, card):
 		sym = 0
