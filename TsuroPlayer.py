@@ -126,18 +126,22 @@ class AIPlayer (TsuroPlayer):
 					for p_h in g_state.active_players():
 						if p_h.id != self.id and p_h.play_position() == g_state.active_players()[self.id].play_position():
 							num_neighbors += 1
-					points += (g_state.players[self.id].play_position()[0] + g_state.players[self.id].play_position()[1]) * 100 + self.symmetry(card) * 500 + lost_opps * 500000 + num_N_N[1] * 50000 - num_neighbors * 500000
+					points += (g_state.players[self.id].play_position()[0] + g_state.players[self.id].play_position()[1]) * 100 + self.symmetry(card) * 500 + lost_opps * lost_score * .00001 + num_N_N[1] * lost_score * .00001 - num_neighbors * lost_score * .00001
 					for state, n_knowledge in gen_States(g_state, knowledge, self):
 						if state.players[self.id].lost():
 							points += lost_score * .1
 						elif len(state.active_players()) == 1:
 							points += lost_score * -.1
 						else:
+							lost_opps = 0
+							for opp in g_state.players:
+								if opp.id != self.id and opp.lost():
+									lost_opps += 1
 							num_neighbors = 0
 							for p_h in g_state.active_players():
 								if p_h.id != self.id and p_h.play_position() == g_state.active_players()[self.id].play_position():
 									num_neighbors += 1
-							points += num_neighbors * 5000
+							points += num_neighbors * lost_score * .0000001 + lost_opps * lost_score * .0000001
 							#if len(n_knowledge) > 0:
 							#	for card_2 in random.sample(n_knowledge, min(len(n_knowledge), 2)):
 							#		points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) | set([card_2]) - set([card]), runs - 1, g_state)[0]
