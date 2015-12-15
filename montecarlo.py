@@ -1,6 +1,9 @@
 from TsuroTile import generateFullTiles
 import random, copy, sys
 
+"""
+Run a simulation starting from game gamestate for player id pid for repeat simulations
+"""
 def runSim(game, pid, repeats, verbose=False):
 	baseGame = game
 	playerId = pid
