@@ -1,6 +1,7 @@
 import itertools
 import random
 import copy
+import math
 from TsuroTile import allTiles as deck
 
 lost_score = -1000000000
@@ -8,6 +9,7 @@ positions_adders = {0 : (-1, 0), 1 : (-1, 0), 2 : (0, 1), 3 : (0, 1), 4 : (1, 0)
 class TsuroPlayer(object):
 	"""Contains the player's hand and position on the board."""
 	def __init__(self, hand, position, game, P_id):
+		random.seed()
 		self.position = position
 		self.hand = hand
 		self.private_hand = set(deck) - set(self.hand)
@@ -74,13 +76,14 @@ class AIPlayer (TsuroPlayer):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self, turn):
 		print "Hand size = " + str(len(self.game.players))
-		if turn / len(self.game.players) <= 1:
-			randomTurn = RandomPlayer(self.hand, self.position, self.game, self.id)
-			sel_card = randomTurn.play(0)
-			sel_card = (0, sel_card, sel_card.rotation)
-		else:
-			sel_card = self.select_card()
+		#if turn / len(self.game.players) <= 1:
+		#	randomTurn = RandomPlayer(self.hand, self.position, self.game, self.id)
+		#	sel_card = randomTurn.play(0)
+		#	sel_card = (0, sel_card, sel_card.rotation)
+		#else:
+		sel_card = self.select_card()
 		self.hand = [card for card in self.hand if card.index != sel_card[1].index]
+		print "AI is playing"
 		return sel_card[1].rotate(ticks = sel_card[2])
 	def askTerminalForTile(self):
 		card = int(raw_input("Please give me a card, -1 for no card >>"))
@@ -93,7 +96,7 @@ class AIPlayer (TsuroPlayer):
 		else:
 			print "I accept that there are no more cards"
 	def select_card(self):
-		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 1, self.game)
+		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 2, self.game)
 	def symmetry(self, card):
 		sym = 0
 		for pip in card.paths:
@@ -102,40 +105,51 @@ class AIPlayer (TsuroPlayer):
 					sym += 1
 		return sym
 	def traverse(self, best, knowledge, hand, runs, c_state):
-		if runs == 0:
+		if runs == 0 or not hand:
 			return (0, None, 0)
 		for card in hand:
 			for rot in range(4):
 				#print card.index
 				points = 0
 				g_state = c_state.transform(card.rotate(ticks = rot), c_state.players[self.id].play_position())
-
-				
 				if g_state.players[self.id].lost():
-					print "yurp"
 					points += lost_score
 				elif g_state.gameOver():
-					print "nope"
 					return (lost_score * -.1, card, rot)
 				else:
 					num_N_N = g_state.board.numNeighborsAndEmpty(g_state.players[self.id].play_position())
-					points += (g_state.players[self.id].play_position()[0] + g_state.players[self.id].play_position()[1]) * 100 + self.symmetry(card) * 500 - len(g_state.active_players())-1 * 300 + num_N_N[1] * 500
-					for state, n_knowledge in gen_States(g_state, self.private_hand, self):
+					num_neighbors = 0
+					lost_opps = 0
+					for opp in g_state.players:
+						if opp.id != self.id and opp.lost():
+							lost_opps += 1
+					for p_h in g_state.active_players():
+						if p_h.id != self.id and p_h.play_position() == g_state.active_players()[self.id].play_position():
+							num_neighbors += 1
+					points += (g_state.players[self.id].play_position()[0] + g_state.players[self.id].play_position()[1]) * 100 + self.symmetry(card) * 500 + lost_opps * lost_score * .00001 + num_N_N[1] * lost_score * .00001 - num_neighbors * lost_score * .00001
+					for state, n_knowledge in gen_States(g_state, knowledge, self):
 						if state.players[self.id].lost():
-							print "huh"
 							points += lost_score * .1
 						elif len(state.active_players()) == 1:
-							print "what"
 							points += lost_score * -.1
 						else:
-							if len(n_knowledge) > 0:
-								for card_2 in n_knowledge:
-									points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) | set([card_2]) - set([card]), runs - 1, g_state)[0]
-							else:
-								points += .0003 * self.traverse(best, set(n_knowledge) - set([card]), hand, runs - 1, g_state)[0]
+							lost_opps = 0
+							for opp in g_state.players:
+								if opp.id != self.id and opp.lost():
+									lost_opps += 1
+							num_neighbors = 0
+							for p_h in g_state.active_players():
+								if p_h.id != self.id and p_h.play_position() == g_state.active_players()[self.id].play_position():
+									num_neighbors += 1
+							points += num_neighbors * lost_score * .0000001 + lost_opps * lost_score * .0000001
+							#if len(n_knowledge) > 0:
+							#	for card_2 in random.sample(n_knowledge, min(len(n_knowledge), 2)):
+							#		points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) | set([card_2]) - set([card]), runs - 1, g_state)[0]
+							#else:
+							points += .1 * self.traverse(best, set(n_knowledge), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
-				#print points, card.index, rot
+				print points, card.index, rot
 		return best
 
 class RandomPlayer(TsuroPlayer):
@@ -204,16 +218,30 @@ class MonteCarloPlayer(TsuroPlayer):
 
 
 def gen_States(g_state, deck, curr_player):
-	for card_order in itertools.permutations(deck, len(g_state.active_players()) - 1):
+	for card_order in iter_sample_fast(itertools.permutations(deck, len(g_state.active_players()) - 1), min(5, max(1, math.factorial(len(deck))/math.factorial(max(len(deck)-(len(g_state.active_players())-1),1))))):
 		ng_state = copy.deepcopy(g_state)
 		cp_pairs = [(list(set(g_state.active_players())- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
 		p_cards = []
-		rotations = [[0]*(len(g_state.active_players()) - 1) + [1] * (len(g_state.active_players()) - 1) + [2] * (len(g_state.active_players()) - 1) + [3] * (len(g_state.active_players()) - 1)]
-		for rot_list in itertools.permutations(rotations, len(g_state.active_players()) - 1):
-			for rot, card_player in zip(rot_list, cp_pairs):
-				card, player = card_player
-				if player in ng_state.active_players():
-					ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
-					p_cards.append(card)
+		rotations = random.sample([0]*(len(g_state.active_players()) - 1) + [1] * (len(g_state.active_players()) - 1) + [2] * (len(g_state.active_players()) - 1) + [3] * (len(g_state.active_players()) - 1), len(g_state.active_players()) - 1)
+		for rot, card_player in zip(rotations, cp_pairs):
+			card, player = card_player
+			if player in ng_state.active_players():
+				ng_state = ng_state.transform(card.rotate(ticks = rot), player.play_position())
+				p_cards.append(card)
 		yield ng_state, set(deck) - set(p_cards)
+def iter_sample_fast(iterable, samplesize):
+    results = []
+    iterator = iter(iterable)
+    # Fill in the first samplesize elements:
+    try:
+        for _ in xrange(samplesize):
+            results.append(iterator.next())
+    except StopIteration:
+        raise ValueError("Sample larger than population.")
+    random.shuffle(results)  # Randomize their positions
+    for i, v in enumerate(iterator, samplesize):
+        r = random.randint(0, i)
+        if r < samplesize:
+            results[r] = v  # at a decreasing rate, replace random items
+    return results
 # location, name
