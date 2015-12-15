@@ -75,15 +75,8 @@ class AIPlayer (TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self, turn):
-		print "Hand size = " + str(len(self.game.players))
-		#if turn / len(self.game.players) <= 1:
-		#	randomTurn = RandomPlayer(self.hand, self.position, self.game, self.id)
-		#	sel_card = randomTurn.play(0)
-		#	sel_card = (0, sel_card, sel_card.rotation)
-		#else:
 		sel_card = self.select_card()
 		self.hand = [card for card in self.hand if card.index != sel_card[1].index]
-		print "AI is playing"
 		return sel_card[1].rotate(ticks = sel_card[2])
 	def askTerminalForTile(self):
 		card = int(raw_input("Please give me a card, -1 for no card >>"))
@@ -92,9 +85,6 @@ class AIPlayer (TsuroPlayer):
 			print card
 			print deck[card]
 			self.hand.append(deck[card])
-			print "Domo arigato, from mr smrt roboto"
-		else:
-			print "I accept that there are no more cards"
 	def select_card(self):
 		return self.traverse((-float("inf"), self.hand[0], 0), self.private_hand, self.hand, 2, self.game)
 	def symmetry(self, card):
@@ -105,11 +95,11 @@ class AIPlayer (TsuroPlayer):
 					sym += 1
 		return sym
 	def traverse(self, best, knowledge, hand, runs, c_state):
+		"""Traverses several possible moves in order to determine the likely best action"""
 		if runs == 0 or not hand:
 			return (0, None, 0)
 		for card in hand:
 			for rot in range(4):
-				#print card.index
 				points = 0
 				g_state = c_state.transform(card.rotate(ticks = rot), c_state.players[self.id].play_position())
 				if g_state.players[self.id].lost():
@@ -133,10 +123,6 @@ class AIPlayer (TsuroPlayer):
 						elif len(state.active_players()) == 1:
 							points += lost_score * -.1
 						else:
-							#if len(n_knowledge) > 0:
-							#	for card_2 in random.sample(n_knowledge, min(len(n_knowledge), 2)):
-							#		points += .0003 * self.traverse(best, set(n_knowledge) - set([card, card_2]), set(hand) | set([card_2]) - set([card]), runs - 1, g_state)[0]
-							#else:
 							points += .1 * self.traverse(best, set(n_knowledge), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
@@ -147,7 +133,6 @@ class RandomPlayer(TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self, turn):
-		print "Hand size = " + str(len(self.hand))
 		possiblePlays = []
 		for card in self.hand:
 			for rot in card.rotations():
@@ -170,9 +155,6 @@ class RandomPlayer(TsuroPlayer):
 			print card
 			print deck[card]
 			self.hand.append(deck[card])
-			print "Domo arigato, from mr dum roboto"
-		else:
-			print "I accept that there are no more cards"
 
 from montecarlo import runSim
 
@@ -201,14 +183,12 @@ class MonteCarloPlayer(TsuroPlayer):
 			print card
 			print deck[card]
 			self.hand.append(deck[card])
-			print "Domo arigato, from mr dum roboto"
-		else:
-			print "I accept that there are no more cards"
 
 
 
 
 def gen_States(g_state, deck, curr_player):
+	"""Generates several possible combinations of opponent moves"""
 	for card_order in iter_sample_fast(itertools.permutations(deck, len(g_state.active_players()) - 1), min(5, max(1, math.factorial(len(deck))/math.factorial(max(len(deck)-(len(g_state.active_players())-1),1))))):
 		ng_state = copy.deepcopy(g_state)
 		cp_pairs = [(list(set(g_state.active_players())- set([curr_player]))[x], card_order[x]) for x in range(len(card_order))]
