@@ -1,5 +1,105 @@
 from TsuroTile import generateFullTiles
 import random, copy, sys
+import numpy as np
+from scipy import stats
+from itertools import product
+import time
+def monteCarloMod1(state, pid, knowledge):
+	random.seed()
+	b_state = copy.deepcopy(state)
+	p_id = pid
+	c_id = pid
+	cards_0 = b_state.players[pid].hand
+	cards = []
+	for card in cards_0:
+		for rot in range(4):
+			if not state.transform(card.rotate(ticks=rot), state.players[pid].play_position()).players[pid].lost():
+				cards.append((card, rot))
+	if not cards:
+		return random.choice(cards_0), random.randint(0, 3)
+	return tourney(b_state, cards, pid, knowledge)
+
+def tourney(state, cards, pid, knowledge):
+	if len(cards) == 1:
+		print len(knowledge)
+		return cards[0][0], cards[0][1]
+	r_p_card = 240/len(cards)
+	v_dict = {}
+	v_array = []
+	c_time = time.clock()
+	for card, rot in cards:
+		wins = []
+		for sim_n in range(r_p_card):
+			print time.clock()-c_time, (sim_n+1)
+			if runSimMod1(copy.deepcopy(state), pid, card.rotate(ticks = rot), list(set(state.players[pid].hand) - set([card])), knowledge):
+				wins.append(1)
+			else:
+				wins.append(0)
+		v_array.extend(wins)
+		wins = np.array(wins)
+		v_dict[card.rotate(ticks = rot)] = (wins, card, rot)
+	v_array = np.array(v_array)
+	next_round = []
+	mean = np.sum(v_array)/np.int_(len(cards))
+	for wins, card, rot in v_dict.values():
+		print "fuck", np.sum(wins), mean
+		if np.sum(wins) > mean:
+			next_round.append((card,rot))
+	if len(next_round) == 0:
+		return tourney(state, [random.choice(cards)], pid, knowledge)
+	print "New Round with " + str(len(next_round))
+	return tourney(state, next_round, pid, knowledge)
+
+def runSimMod1(state, pid, c_card, hand, knowledge):
+	state = state.transform(c_card, state.players[pid].play_position())
+	cid = pid
+	num_players = len(state.players)
+	deck = list(copy.deepcopy(knowledge))
+	random.shuffle(deck)
+	if state.players[pid].lost():
+		return False
+	while not state.players[pid].lost():
+		cid = incrementPlayer(cid, num_players)
+		if state.gameOver():
+			return True
+		while state.players[cid].lost():
+			cid = incrementPlayer(cid, num_players)
+		c_play_position = state.players[cid].play_position()
+		if cid == pid:
+			p_cards = [x for x in product(range(len(hand)), range(4))]
+			random.shuffle(p_cards)
+			cont = False
+			for card in p_cards:
+				n_state = state.transform(hand[card[0]].rotate(ticks = card[1]), c_play_position)
+				if not n_state.players[pid].lost():
+					hand.remove(hand[card[0]])
+					state = n_state
+					cont = True
+					break
+			if cont:
+				continue
+		allow_i_suicide = num_players >= len(deck)
+		state = pick_card(deck, allow_i_suicide, c_play_position, cid, state)
+	return False
+
+def incrementPlayer(curr, num_players):
+	return (curr + 1) % num_players
+
+def pick_card(deck, can_die, c_play_position, cid, state):
+	for card in deck:
+		rots = range(4)
+		random.shuffle(rots)
+		for rot in rots:
+			n_state = state.transform(card.rotate(ticks = rot), c_play_position)
+			if not n_state.players[cid].lost():
+				deck.remove(card)
+				return n_state
+		if can_die:
+			n_state = state.transform(card.rotate(ticks = rot), c_play_position)
+			deck.remove(card)
+			return n_state
+	state = state.transform(deck.pop(0).rotate(ticks=random.randint(0,3)), c_play_position)
+	return state
 
 def runSim(game, pid, repeats, verbose=False):
 	baseGame = game

@@ -75,8 +75,20 @@ class AIPlayer (TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self, turn):
+		# import montecarlo
+		self.private_hand = list(set(self.private_hand) - set(self.hand))
+		boardTiles = []
+		for i in range(1, 7):
+			for j in range(1, 7):
+				gridTile = self.game.board.getTile((i, j))
+				if gridTile is not None:
+					boardTiles.append(gridTile.index)
+		self.private_hand = [tile for tile in self.private_hand if not tile.index in boardTiles]
+		# card, rot = montecarlo.monteCarloMod1(self.game, self.id, self.private_hand)
+		# self.hand = [tile for tile in self.hand if tile.index != card.index]
+		# return card.rotate(ticks = rot)
 		sel_card = self.select_card()
-		self.hand = [card for card in self.hand if card.index != sel_card[1].index]
+		self.hand = [tile for tile in self.hand if tile.index != sel_card[1].index]
 		return sel_card[1].rotate(ticks = sel_card[2])
 	def askTerminalForTile(self):
 		card = int(raw_input("Please give me a card, -1 for no card >>"))
@@ -127,7 +139,6 @@ class AIPlayer (TsuroPlayer):
 							points += .1 * self.traverse(best, set(n_knowledge), hand, runs - 1, g_state)[0]
 				if points > best[0]:
 					best = (points, card, rot)
-				print points, card.index, rot
 		return best
 
 class RandomPlayer(TsuroPlayer):
@@ -168,6 +179,7 @@ class MonteCarloPlayer(TsuroPlayer):
 		maxVal = float("-inf")
 		for tile in mcResults:
 			runs, total = mcResults[tile]
+			runs = 1 if runs == 0 else runs
 			val = total / runs
 			#print "Tile: %d rot=%d = (%s) = %f" % (tile.index, tile.rotation, str(mcResults[tile]), val)
 			if val > maxVal:
