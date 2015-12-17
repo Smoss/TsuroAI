@@ -101,6 +101,9 @@ def pick_card(deck, can_die, c_play_position, cid, state):
 	state = state.transform(deck.pop(0).rotate(ticks=random.randint(0,3)), c_play_position)
 	return state
 
+"""
+Run a simulation starting from game gamestate for player id pid for repeat simulations
+"""
 def runSim(game, pid, repeats, verbose=False):
 	baseGame = game
 	playerId = pid

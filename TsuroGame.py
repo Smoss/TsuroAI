@@ -286,7 +286,7 @@ class TsuroVirtualGame(TsuroGame):
 
 
 def main():
-	"""selection = int(raw_input("1 for virtual 2 for physical >>"))
+	selection = int(raw_input("1 for virtual 2 for physical >>"))
 	if selection == 1:
 		game = TsuroVirtualGame(None)
 		virtualGame = True
@@ -370,35 +370,25 @@ def main():
 	print mcPlayers
 	print randomPlayers
 	print allPlayers
-			game.players = allPlayers
+	game.players = allPlayers
 
-	"""
-	winners = []
-	for run in range(0, 10):
-		game = TsuroVirtualGame(None)
-		mcPlayer = MonteCarloPlayer([], startPositions.pop(), game, 0)
-		randomPlayer = RandomPlayer([], startPositions.pop(), game, 1)
-		game.players = [mcPlayer, randomPlayer]
-		virtualGame = True
-		if virtualGame:
-			game.dealInitalTiles()
-		turnNumber = 0
-		print "-------------pregame---------------"
-		game.printDeck()
+	if virtualGame:
+		game.dealInitalTiles()
+	turnNumber = 0
+	print "-------------pregame---------------"
+	game.printDeck()
 
 
 
-		while not game.gameOver():
-			game.playTurn(turnNumber)
-			turnNumber += 1
-			print "The turn is over"
-		print "The game is over!"
-		print "Living players:\n-------------"
-		for player in game.players:
-			if player.alive():
-				print player.id
-				winners.append(player.id)
-	print winners
+	while not game.gameOver():
+		game.playTurn(turnNumber)
+		turnNumber += 1
+		print "The turn is over"
+	print "The game is over!"
+	print "Living players:\n-------------"
+	for player in game.players:
+		if player.alive():
+			print player.id
 
 if __name__ == "__main__":
 	main()
