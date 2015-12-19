@@ -11,6 +11,7 @@ def monteCarloMod1(state, pid, knowledge):
 	c_id = pid
 	cards_0 = b_state.players[pid].hand
 	cards = []
+	print "pid is" , pid
 	for card in cards_0:
 		for rot in range(4):
 			if not state.transform(card.rotate(ticks=rot), state.players[pid].play_position()).players[pid].lost():
@@ -21,16 +22,15 @@ def monteCarloMod1(state, pid, knowledge):
 
 def tourney(state, cards, pid, knowledge):
 	if len(cards) == 1:
-		print len(knowledge)
+		print "playing", cards[0][0].index, cards[0][1]
 		return cards[0][0], cards[0][1]
-	r_p_card = 240/len(cards)
+	r_p_card = (120*32)/(len(cards)*len(knowledge)+1)
 	v_dict = {}
 	v_array = []
 	c_time = time.clock()
 	for card, rot in cards:
 		wins = []
 		for sim_n in range(r_p_card):
-			print time.clock()-c_time, (sim_n+1)
 			if runSimMod1(copy.deepcopy(state), pid, card.rotate(ticks = rot), list(set(state.players[pid].hand) - set([card])), knowledge):
 				wins.append(1)
 			else:
@@ -42,7 +42,7 @@ def tourney(state, cards, pid, knowledge):
 	next_round = []
 	mean = np.sum(v_array)/np.int_(len(cards))
 	for wins, card, rot in v_dict.values():
-		print "fuck", np.sum(wins), mean
+		print card.index, rot, ":", np.sum(wins), mean, r_p_card
 		if np.sum(wins) > mean:
 			next_round.append((card,rot))
 	if len(next_round) == 0:
@@ -56,8 +56,6 @@ def runSimMod1(state, pid, c_card, hand, knowledge):
 	num_players = len(state.players)
 	deck = list(copy.deepcopy(knowledge))
 	random.shuffle(deck)
-	if state.players[pid].lost():
-		return False
 	while not state.players[pid].lost():
 		cid = incrementPlayer(cid, num_players)
 		if state.gameOver():
@@ -78,6 +76,8 @@ def runSimMod1(state, pid, c_card, hand, knowledge):
 					break
 			if cont:
 				continue
+		if not deck:
+			return False
 		allow_i_suicide = num_players >= len(deck)
 		state = pick_card(deck, allow_i_suicide, c_play_position, cid, state)
 	return False

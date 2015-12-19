@@ -117,6 +117,10 @@ class TsuroTile:
 			else:
 				final.add((destination, index))
 		return final
+	def __str__(self):
+		return self.index
+	def __repr__(self):
+		return str(self.index)
 
 def generateFullTiles():
 	return [TsuroTile(i, info) for i, info in enumerate(allTilesInfo)]

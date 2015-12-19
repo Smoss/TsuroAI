@@ -75,8 +75,11 @@ class AIPlayer (TsuroPlayer):
 	def __init__(self, hand, position, game, P_id):
 		TsuroPlayer.__init__(self, hand, position, game, P_id)
 	def play(self, turn):
-		# import montecarlo
-		self.private_hand = list(set(self.private_hand) - set(self.hand))
+		import montecarlo
+		handTiles = []
+		for card in self.hand:
+			handTiles.append(card.index)
+		self.private_hand = [tile for tile in self.private_hand if not tile.index in handTiles]
 		boardTiles = []
 		for i in range(1, 7):
 			for j in range(1, 7):
@@ -84,12 +87,12 @@ class AIPlayer (TsuroPlayer):
 				if gridTile is not None:
 					boardTiles.append(gridTile.index)
 		self.private_hand = [tile for tile in self.private_hand if not tile.index in boardTiles]
-		# card, rot = montecarlo.monteCarloMod1(self.game, self.id, self.private_hand)
-		# self.hand = [tile for tile in self.hand if tile.index != card.index]
-		# return card.rotate(ticks = rot)
-		sel_card = self.select_card()
-		self.hand = [tile for tile in self.hand if tile.index != sel_card[1].index]
-		return sel_card[1].rotate(ticks = sel_card[2])
+		card, rot = montecarlo.monteCarloMod1(self.game, self.id, self.private_hand)
+		self.hand = [tile for tile in self.hand if tile.index != card.index]
+		return card.rotate(ticks = rot)
+		# sel_card = self.select_card()
+		# self.hand = [tile for tile in self.hand if tile.index != sel_card[1].index]
+		# return sel_card[1].rotate(ticks = sel_card[2])
 	def askTerminalForTile(self):
 		card = int(raw_input("Please give me a card, -1 for no card >>"))
 		if card != -1:

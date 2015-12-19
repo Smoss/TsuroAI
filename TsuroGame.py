@@ -296,99 +296,130 @@ def main():
 
 	random.shuffle(startPositions)
 
-	numPlayers = int(raw_input("Number of human players? >> ")) 
-	humanPlayers = []
-	for i in range(0, numPlayers):
-		print "player %d" % i
-		position = map(int, raw_input("enter start position: x y z >>").split(" "))
+# 	numPlayers = int(raw_input("Number of human players? >> ")) 
+# 	humanPlayers = []
+# 	for i in range(0, numPlayers):
+# 		print "player %d" % i
+# 		position = map(int, raw_input("enter start position: x y z >>").split(" "))
+# 		if virtualGame:
+# 			hand = []
+# 		else:
+# 			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+# 			hand = [TsuroTilesAllTiles[c] for c in hand]
+# 		humanPlayers.append(HumanPlayer(hand, position, game, i))
+
+
+
+# 	numAI = int(raw_input("Number of smart ai players? >> "))
+# 	aiPlayers = []
+# 	for i in range(0, numAI):
+# 		print "player %d" % (i + numPlayers)
+# 		position = raw_input("enter start position: x y z -1 for random>>")
+# 		if position == "-1":
+# 			position = startPositions.pop()
+# 			print "randomly chose %s" % str(position)
+# 		else:
+# 			position = map(int, position.split(" "))
+
+# 		if virtualGame:
+# 			hand = []
+# 		else:
+# 			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+# 			hand = [TsuroTilesAllTiles[c] for c in hand]		
+# 		aiPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
+
+# 	numMC = int(raw_input("Number of monte players? >> "))
+# 	mcPlayers = []
+# 	for i in range(0, numMC):
+# 		print "player %d" % (i + numPlayers + numAI)
+# 		position = raw_input("enter start position: x y z -1 for random>>")
+# 		if position == "-1":
+# 			position = startPositions.pop()
+# 			print "randomly chose %s" % str(position)
+# 		else:
+# 			position = map(int, position.split(" "))
+
+# 		if virtualGame:
+# 			hand = []
+# 		else:
+# 			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+# 			hand = [TsuroTilesAllTiles[c] for c in hand]		
+# 		mcPlayers.append(MonteCarloPlayer(hand, position, game, i + numPlayers + numAI))
+
+
+# 	numRandom = int(raw_input("Number of random AI players? >> "))
+# 	randomPlayers = []
+# 	for i in range(0, numRandom):
+# 		print "player %d" % (i + numPlayers + numAI + numMC)
+# 		position = raw_input("enter start position: x y z -1 for random>>")
+# 		if position == "-1":
+# 			position = startPositions.pop()
+# 			print "randomly chose %s" % str(position)
+# 		else:
+# 			position = map(int, position.split(" "))
+# 		if virtualGame:
+# 			hand = []
+# 		else:
+# 			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
+# 			hand = [TsuroTilesAllTiles[c] for c in hand]		
+# 		randomPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI + numMC))
+
+# 	allPlayers = humanPlayers + aiPlayers + mcPlayers + randomPlayers 
+# 	print humanPlayers
+# 	print aiPlayers
+# 	print mcPlayers
+# 	print randomPlayers
+# 	print allPlayers
+# 	game.players = allPlayers
+
+# <<<<<<< Updated upstream
+# 	if virtualGame:
+# 		game.dealInitalTiles()
+# 	turnNumber = 0
+# 	print "-------------pregame---------------"
+# 	game.printDeck()
+
+
+
+# 	while not game.gameOver():
+# 		game.playTurn(turnNumber)
+# 		turnNumber += 1
+# 		print "The turn is over"
+# 	print "The game is over!"
+# 	print "Living players:\n-------------"
+# 	for player in game.players:
+# 		if player.alive():
+# 			print player.id
+# =======
+	winners = []
+	for run in range(0, 100):
+		startPositions_p = copy.copy(startPositions)
+		random.shuffle(startPositions_p)
+		game = TsuroVirtualGame(None)
+		randomPlayer = AIPlayer([], startPositions_p.pop(), game, 0)
+		mcPlayer = RandomPlayer([], startPositions_p.pop(), game, 1)
+		game.players = [randomPlayer, mcPlayer]
+		print game.players
+		virtualGame = True
 		if virtualGame:
-			hand = []
-		else:
-			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-			hand = [TsuroTilesAllTiles[c] for c in hand]
-		humanPlayers.append(HumanPlayer(hand, position, game, i))
+			game.dealInitalTiles()
+		turnNumber = 0
+		print "-------------pregame---------------"
+		game.printDeck()
 
 
 
-	numAI = int(raw_input("Number of smart ai players? >> "))
-	aiPlayers = []
-	for i in range(0, numAI):
-		print "player %d" % (i + numPlayers)
-		position = raw_input("enter start position: x y z -1 for random>>")
-		if position == "-1":
-			position = startPositions.pop()
-			print "randomly chose %s" % str(position)
-		else:
-			position = map(int, position.split(" "))
-
-		if virtualGame:
-			hand = []
-		else:
-			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-			hand = [TsuroTilesAllTiles[c] for c in hand]		
-		aiPlayers.append(AIPlayer(hand, position, game, i + numPlayers))
-
-	numMC = int(raw_input("Number of monte players? >> "))
-	mcPlayers = []
-	for i in range(0, numMC):
-		print "player %d" % (i + numPlayers + numAI)
-		position = raw_input("enter start position: x y z -1 for random>>")
-		if position == "-1":
-			position = startPositions.pop()
-			print "randomly chose %s" % str(position)
-		else:
-			position = map(int, position.split(" "))
-
-		if virtualGame:
-			hand = []
-		else:
-			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-			hand = [TsuroTilesAllTiles[c] for c in hand]		
-		mcPlayers.append(MonteCarloPlayer(hand, position, game, i + numPlayers + numAI))
-
-
-	numRandom = int(raw_input("Number of random AI players? >> "))
-	randomPlayers = []
-	for i in range(0, numRandom):
-		print "player %d" % (i + numPlayers + numAI + numMC)
-		position = raw_input("enter start position: x y z -1 for random>>")
-		if position == "-1":
-			position = startPositions.pop()
-			print "randomly chose %s" % str(position)
-		else:
-			position = map(int, position.split(" "))
-		if virtualGame:
-			hand = []
-		else:
-			hand = map(int, raw_input("enter tile numbers: >>").split(" "))
-			hand = [TsuroTilesAllTiles[c] for c in hand]		
-		randomPlayers.append(RandomPlayer(hand, position, game, i + numPlayers + numAI + numMC))
-
-	allPlayers = humanPlayers + aiPlayers + mcPlayers + randomPlayers 
-	print humanPlayers
-	print aiPlayers
-	print mcPlayers
-	print randomPlayers
-	print allPlayers
-	game.players = allPlayers
-
-	if virtualGame:
-		game.dealInitalTiles()
-	turnNumber = 0
-	print "-------------pregame---------------"
-	game.printDeck()
-
-
-
-	while not game.gameOver():
-		game.playTurn(turnNumber)
-		turnNumber += 1
-		print "The turn is over"
-	print "The game is over!"
-	print "Living players:\n-------------"
-	for player in game.players:
-		if player.alive():
-			print player.id
+		while not game.gameOver():
+			game.playTurn(turnNumber)
+			turnNumber += 1
+			print "The turn is over"
+		print "The game is over!"
+		print "Living players:\n-------------"
+		for player in game.players:
+			if player.alive():
+				print player.id
+				winners.append(player.id)
+	print winners
 
 if __name__ == "__main__":
 	main()
